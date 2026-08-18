@@ -40,22 +40,23 @@
 /* ================= 悬停工具栏 ================= */
 .floedock-toolbar {
     spacing: 4px;
-    padding: 0 6px;
-    /* 工具栏整体深色胶囊背景（纯黑不透明，简约） */
-    background-color: rgba(9, 11, 16, 0.97);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 2px 8px;
+    /* 工具栏深色胶囊背景（比纯黑略浅，图标清晰可辨） */
+    background-color: rgba(28, 30, 36, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .floedock-tool {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.09);
+    background-color: rgba(255, 255, 255, 0.10);
+    border: 1px solid rgba(255, 255, 255, 0.16);
 }
 
 .floedock-tool:hover {
-    background-color: rgba(255, 255, 255, 0.16);
-    border-color: rgba(255, 255, 255, 0.55);
+    background-color: rgba(255, 255, 255, 0.22);
+    border-color: rgba(255, 255, 255, 0.60);
 }
 
 .floedock-tool:recording {
@@ -64,7 +65,8 @@
 }
 
 .floedock-tool-icon {
-    opacity: 0.90;
+    color: #ffffff;
+    opacity: 0.95;
 }
 
 /* ================= 全功能面板 ================= */
@@ -301,6 +303,15 @@
     padding: 6px 6px 2px 6px;
 }
 
+.floedock-weather-now-extra {
+    spacing: 3px;
+}
+
+.floedock-weather-now-extra-label {
+    font-size: 9.5pt;
+    color: rgba(255, 255, 255, 0.62);
+}
+
 .floedock-weather-temp {
     font-size: 40pt;
     font-weight: 200;
@@ -512,16 +523,14 @@
 
 .floedock-music-body {
     border-radius: 14px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 10px 12px;
+    spacing: 14px;
 }
 
-.floedock-music-dim {
-    background-color: rgba(3, 4, 6, 0.60);
-    border-radius: 14px;
-}
-
-.floedock-music-content {
-    spacing: 6px;
-    padding: 10px;
+.floedock-music-right {
+    spacing: 5px;
 }
 
 .floedock-music-cover {
