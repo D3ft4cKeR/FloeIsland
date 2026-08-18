@@ -1,15 +1,29 @@
 // FloeDock 设置界面（GNOME Extensions Preferences, Adw）。
+// 自包含实现：不 import resource:// 的 Extension 基类（某些环境下
+// prefs 进程加载不到该资源），改用 Gio.Settings 直接读写。
 // 分类：外观 / 行为 / 模块 / 高级。
 
 import Adw from 'gi://Adw';
 import Gtk from 'gi://Gtk';
+import Gio from 'gi://Gio';
 
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import {SETTINGS_SCHEMA} from './lib/constants.js';
 
-export default class FloeDockPrefs extends Extension {
+let _settings = null;
+
+function getSettings() {
+    if (!_settings)
+        _settings = Gio.Settings.new(SETTINGS_SCHEMA);
+    return _settings;
+}
+
+export default class FloeDockPrefs {
+    // 兼容旧式 prefs 加载器
+    init() {}
+
     buildPreferencesWindow() {
         const window = new Adw.PreferencesWindow();
+        window.set_search_enabled(true);
 
         window.add(this._appearancePage());
         window.add(this._behaviorPage());
@@ -17,10 +31,6 @@ export default class FloeDockPrefs extends Extension {
         window.add(this._advancedPage());
 
         return window;
-    }
-
-    _settings() {
-        return this.getSettings();
     }
 
     // ---------- 外观 ----------
@@ -31,10 +41,10 @@ export default class FloeDockPrefs extends Extension {
         });
         const group = new Adw.PreferencesGroup({
             title: '浮冰玻璃',
-            description: '背景模糊为真模糊（Shell.BlurEffect），半透明渐变叠加其上',
+            description: '背景模糊为真模糊（Shell.BlurEffect），半透明暗底渐变叠加其上',
         });
         group.add(this._spinRow('blur-strength', '模糊强度', '0 = 无模糊，100 = 重霜', 0, 100, 1));
-        group.add(this._spinRow('glass-opacity', '透明度', '玻璃底色不透明度（%），越小越透', 0, 100, 1));
+        group.add(this._spinRow('glass-opacity', '透明度', '玻璃底色不透明度（%），越高模糊越明显', 0, 100, 1));
         group.add(this._spinRow('corner-radius', '圆角半径', '展开面板的圆角（px）；胶囊态始终为全圆角', 0, 48, 1));
         group.add(this._entryRow('accent-color', '主题色', 'CSS 颜色，如 #7fd4ff'));
         group.add(this._spinRow('font-size', '时钟字号', '胶囊时钟文字大小（px）', 8, 48, 1));
@@ -51,7 +61,7 @@ export default class FloeDockPrefs extends Extension {
         });
 
         const group = new Adw.PreferencesGroup({title: '交互'});
-        group.add(this._spinRow('hover-delay', '悬停延迟 (ms)', '悬停多久后唤出工具栏', 100, 2000, 50));
+        group.add(this._spinRow('hover-delay', '悬停延迟 (ms)', '悬停多久后唤出工具栏', 100, 3000, 50));
         group.add(this._switchRow('suppress-banners', '接管系统通知横幅', '禁用默认横幅，通知全部显示在岛屿上'));
         page.add(group);
 
@@ -122,7 +132,7 @@ export default class FloeDockPrefs extends Extension {
         });
         const group = new Adw.PreferencesGroup({title: '调试'});
         group.add(this._switchRow('debug', '调试模式',
-            '输出详细日志：journalctl -f -o cat /usr/bin/gnome-shell'));
+            '输出详细日志：journalctl --user -b -o cat | grep floedock'));
 
         const resetGroup = new Adw.PreferencesGroup({title: '恢复'});
         const resetRow = new Adw.ActionRow({
@@ -132,7 +142,7 @@ export default class FloeDockPrefs extends Extension {
         const resetBtn = new Gtk.Button({label: '重置', valign: Gtk.Align.CENTER});
         resetBtn.add_css_class('destructive-action');
         resetBtn.connect('clicked', () => {
-            const settings = this._settings();
+            const settings = getSettings();
             for (const key of settings.settings_schema.list_keys())
                 settings.reset(key);
         });
@@ -154,7 +164,7 @@ export default class FloeDockPrefs extends Extension {
 
     // ---------- 行控件 ----------
     _spinRow(key, title, subtitle, lower, upper, step) {
-        const settings = this._settings();
+        const settings = getSettings();
         const adjustment = Gtk.Adjustment.new(settings.get_int(key), lower, upper, step, step, 0);
         const row = new Adw.SpinRow({title, subtitle, adjustment});
         row.value = settings.get_int(key);
@@ -163,7 +173,7 @@ export default class FloeDockPrefs extends Extension {
     }
 
     _switchRow(key, title, subtitle) {
-        const settings = this._settings();
+        const settings = getSettings();
         const row = new Adw.SwitchRow({title, subtitle});
         row.active = settings.get_boolean(key);
         row.connect('notify::active', () => settings.set_boolean(key, row.active));
@@ -171,7 +181,7 @@ export default class FloeDockPrefs extends Extension {
     }
 
     _entryRow(key, title, subtitle) {
-        const settings = this._settings();
+        const settings = getSettings();
         const row = new Adw.EntryRow({title, subtitle});
         row.text = settings.get_string(key);
         row.connect('changed', () => settings.set_string(key, row.text));
@@ -179,7 +189,7 @@ export default class FloeDockPrefs extends Extension {
     }
 
     _enumRow(key, title, nicks) {
-        const settings = this._settings();
+        const settings = getSettings();
         const list = new Gtk.StringList();
         for (const n of nicks)
             list.append(n);
