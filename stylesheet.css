@@ -766,28 +766,3 @@
     font-size: 12pt;
     color: rgba(255, 255, 255, 0.92);
 }
-
-/* ================= 取色模块 ================= */
-.floedock-colorpicker-image {
-    border: 1px solid rgba(255, 255, 255, 0.18);
-}
-
-.floedock-colorpicker-result {
-    spacing: 12px;
-    padding: 8px;
-}
-
-.floedock-colorpicker-swatch {
-    border: 1px solid rgba(255, 255, 255, 0.35);
-}
-
-.floedock-colorpicker-hex {
-    font-weight: 700;
-    color: #ffffff;
-    min-width: 84px;
-}
-
-.floedock-colorpicker-rgb {
-    color: rgba(255, 255, 255, 0.75);
-    min-width: 120px;
-}

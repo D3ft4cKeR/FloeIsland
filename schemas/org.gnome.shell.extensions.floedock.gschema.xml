@@ -154,11 +154,6 @@
       <summary>Translate module</summary>
       <description>Show the quick-translation tab in the full panel.</description>
     </key>
-    <key name="module-colorpicker" type="b">
-      <default>true</default>
-      <summary>Color picker module</summary>
-      <description>Show the on-screen color picker tab in the full panel.</description>
-    </key>
     <key name="weather-provider" enum="weather-provider">
       <default>'wttr'</default>
       <summary>Weather provider</summary>

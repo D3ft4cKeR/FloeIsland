@@ -107,7 +107,6 @@ export default class FloeDockPrefs {
         modules.add(this._switchRow('module-music', '音乐', 'MPRIS 播放器控制'));
         modules.add(this._switchRow('module-timer', '计时', '倒计时 / 秒表'));
         modules.add(this._switchRow('module-translate', '翻译', '快速翻译输入'));
-        modules.add(this._switchRow('module-colorpicker', '取色', '截屏取色'));
         page.add(modules);
 
         const weather = new Adw.PreferencesGroup({title: '天气'});
