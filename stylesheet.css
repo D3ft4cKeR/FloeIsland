@@ -313,20 +313,27 @@
 }
 
 .floedock-weather-details {
-    padding: 6px 12px;
-    spacing: 4px;
+    padding: 6px 8px;
+    spacing: 12px; /* 左右两列间距 */
     background-color: rgba(255, 255, 255, 0.05);
     border-radius: 12px;
 }
 
+.floedock-weather-detail-col {
+    spacing: 4px;
+}
+
 .floedock-weather-detail {
-    spacing: 8px;
+    spacing: 6px;
     padding: 1px 2px;
+    /* 内容不被截断：允许溢出时换行 */
 }
 
 .floedock-weather-detail-key {
     font-size: 9.5pt;
     color: rgba(255, 255, 255, 0.50);
+    /* 固定宽度让 value 对齐 */
+    min-width: 52px;
 }
 
 .floedock-weather-detail-value {
