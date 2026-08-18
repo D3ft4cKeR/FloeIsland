@@ -255,12 +255,17 @@
 /* ================= 消息模块 ================= */
 .floedock-notif-row {
     spacing: 10px;
-    padding: 7px 10px;
+    padding: 8px 12px;
     border-radius: 12px;
+    /* 行占满面板宽度（卡片背景延伸到右，不再右侧大片空白） */
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin: 2px 0;
 }
 
 .floedock-notif-row:hover {
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.10);
 }
 
 .floedock-notif-icon {
