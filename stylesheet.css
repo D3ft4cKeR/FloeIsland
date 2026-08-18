@@ -41,11 +41,10 @@
 .floedock-toolbar {
     spacing: 4px;
     padding: 2px 8px;
-    /* 工具栏深色胶囊背景（比纯黑略浅，图标清晰可辨） */
-    background-color: rgba(28, 30, 36, 0.98);
+    /* 工具栏深色胶囊背景（与岛/面板统一近黑，无割裂） */
+    background-color: rgba(12, 13, 16, 0.98);
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 999px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
 }
 
 .floedock-tool {
@@ -81,22 +80,23 @@
 }
 
 .floedock-search-entry {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.10);
+    background-color: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 255, 255, 0.18);
     border-radius: 999px;
     padding: 5px 14px;
-    color: rgba(255, 255, 255, 0.95);
+    color: #ffffff;
     caret-color: #ffffff;
-    selection-background-color: rgba(255, 255, 255, 0.30);
+    selection-background-color: rgba(255, 255, 255, 0.35);
 }
 
 .floedock-search-entry:hover {
-    background-color: rgba(255, 255, 255, 0.09);
+    background-color: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.28);
 }
 
 .floedock-search-entry:focus {
-    background-color: rgba(255, 255, 255, 0.09);
-    border-color: rgba(255, 255, 255, 0.60);
+    background-color: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.65);
 }
 
 .floedock-search-results-layer {
@@ -233,7 +233,8 @@
 
 .floedock-seg-button {
     border-radius: 999px;
-    padding: 2px 10px;
+    padding: 3px 12px;
+    min-height: 24px;
 }
 
 .floedock-seg-button:hover {
