@@ -22,6 +22,21 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
+/* 胶囊内 OSD 信息（音量/亮度/截图等，灵动岛式） */
+.floedock-osd-capsule {
+    spacing: 6px;
+}
+
+.floedock-osd-capsule-icon {
+    color: #ffffff;
+}
+
+.floedock-osd-capsule-label {
+    color: rgba(255, 255, 255, 0.92);
+    font-size: 11px;
+    font-weight: 500;
+}
+
 /* ================= 悬停工具栏 ================= */
 .floedock-toolbar {
     spacing: 4px;
