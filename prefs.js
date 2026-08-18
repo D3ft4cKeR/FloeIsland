@@ -21,16 +21,24 @@ export default class FloeDockPrefs {
     // 兼容旧式 prefs 加载器
     init() {}
 
+    /** GNOME 50：加载器调用此方法，把页面填入它创建好的窗口 */
+    fillPreferencesWindow(window) {
+        this._buildPages(window);
+    }
+
+    /** 旧版（GNOME 45-49）加载器：返回窗口 */
     buildPreferencesWindow() {
         const window = new Adw.PreferencesWindow();
         window.set_search_enabled(true);
+        this._buildPages(window);
+        return window;
+    }
 
+    _buildPages(window) {
         window.add(this._appearancePage());
         window.add(this._behaviorPage());
         window.add(this._modulesPage());
         window.add(this._advancedPage());
-
-        return window;
     }
 
     // ---------- 外观 ----------
