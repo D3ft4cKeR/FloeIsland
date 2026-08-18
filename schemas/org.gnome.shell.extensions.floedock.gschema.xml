@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="floedock">
+  <enum id="anim-style">
+    <value nick="blur" value="0"/>
+    <value nick="up" value="1"/>
+    <value nick="zoom" value="2"/>
+  </enum>
+  <enum id="weather-provider">
+    <value nick="wttr" value="0"/>
+    <value nick="openweather" value="1"/>
+  </enum>
+  <enum id="weather-unit">
+    <value nick="metric" value="0"/>
+    <value nick="imperial" value="1"/>
+  </enum>
+  <enum id="search-backend">
+    <value nick="tracker" value="0"/>
+    <value nick="locate" value="1"/>
+    <value nick="command" value="2"/>
+    <value nick="apps-only" value="3"/>
+  </enum>
+
+  <schema id="org.gnome.shell.extensions.floedock" path="/org/gnome/shell/extensions/floedock/">
+
+    <!-- ============ 外观 Appearance ============ -->
+    <key name="blur-strength" type="i">
+      <default>30</default>
+      <range min="0" max="100"/>
+      <summary>Frosted glass blur strength</summary>
+      <description>Strength of the layered frosted-glass effect (0 = fully clear, 100 = heavy frost). St has no real backdrop-filter, the effect is approximated with layered translucent gradients.</description>
+    </key>
+    <key name="glass-opacity" type="i">
+      <default>8</default>
+      <range min="0" max="100"/>
+      <summary>Glass background opacity</summary>
+      <description>Opacity of the ice-glass background fill (0 = transparent, 100 = opaque).</description>
+    </key>
+    <key name="corner-radius" type="i">
+      <default>16</default>
+      <range min="0" max="48"/>
+      <summary>Panel / island corner radius</summary>
+      <description>Corner radius used for the expanded surfaces (the dock capsule always uses a fully-rounded pill shape).</description>
+    </key>
+    <key name="accent-color" type="s">
+      <default>'#7fd4ff'</default>
+      <summary>Accent color</summary>
+      <description>Accent color used for the active tab indicator, focus ring and highlights. Any CSS color string.</description>
+    </key>
+    <key name="font-size" type="i">
+      <default>12</default>
+      <range min="8" max="32"/>
+      <summary>Panel font size</summary>
+      <description>Font size of the time/date text on the dock capsule.</description>
+    </key>
+
+    <!-- ============ 行为 Behavior ============ -->
+    <key name="hover-delay" type="i">
+      <default>300</default>
+      <range min="100" max="2000"/>
+      <summary>Hover delay (ms)</summary>
+      <description>How long the pointer must hover the dock before the quick toolbar appears.</description>
+    </key>
+    <key name="suppress-banners" type="b">
+      <default>true</default>
+      <summary>Suppress default notification banners</summary>
+      <description>While FloeDock is enabled, the default GNOME notification banners are suppressed so that all notifications are shown on the island instead.</description>
+    </key>
+    <key name="notif-duration" type="i">
+      <default>3</default>
+      <range min="1" max="5"/>
+      <summary>Notification display duration (s)</summary>
+      <description>How long each stacked notification stays on the island before switching to the next one.</description>
+    </key>
+    <key name="notif-stack-depth" type="i">
+      <default>3</default>
+      <range min="2" max="5"/>
+      <summary>Notification stack depth</summary>
+      <description>How many notifications are visible stacked behind the front one.</description>
+    </key>
+    <key name="notif-anim-style" enum="anim-style">
+      <default>'blur'</default>
+      <summary>Notification switch animation</summary>
+      <description>How the front notification leaves when the next one takes over: blur out, slide up, or scale out.</description>
+    </key>
+    <key name="takeover-volume" type="b">
+      <default>true</default>
+      <summary>Take over volume OSD</summary>
+      <description>Show volume changes on the island instead of the default OSD.</description>
+    </key>
+    <key name="takeover-brightness" type="b">
+      <default>true</default>
+      <summary>Take over brightness OSD</summary>
+      <description>Show brightness changes on the island instead of the default OSD.</description>
+    </key>
+    <key name="takeover-mute" type="b">
+      <default>true</default>
+      <summary>Take over mute OSD</summary>
+      <description>Show mute / unmute feedback on the island instead of the default OSD.</description>
+    </key>
+    <key name="takeover-airplane" type="b">
+      <default>true</default>
+      <summary>Take over airplane-mode feedback</summary>
+      <description>Show airplane mode toggling on the island.</description>
+    </key>
+    <key name="takeover-mic" type="b">
+      <default>true</default>
+      <summary>Take over microphone OSD</summary>
+      <description>Show microphone enable/disable feedback on the island.</description>
+    </key>
+    <key name="takeover-recording" type="b">
+      <default>true</default>
+      <summary>Take over screen-recording indicator</summary>
+      <description>Show screen recording state on the island.</description>
+    </key>
+    <key name="takeover-screenshot" type="b">
+      <default>true</default>
+      <summary>Take over screenshot confirmation</summary>
+      <description>Show a screenshot confirmation on the island.</description>
+    </key>
+
+    <!-- ============ 模块 Modules ============ -->
+    <key name="module-messages" type="b">
+      <default>true</default>
+      <summary>Messages module</summary>
+      <description>Show the recent-notifications list tab in the full panel.</description>
+    </key>
+    <key name="module-weather" type="b">
+      <default>true</default>
+      <summary>Weather module</summary>
+      <description>Show the weather tab in the full panel.</description>
+    </key>
+    <key name="module-calendar" type="b">
+      <default>true</default>
+      <summary>Calendar module</summary>
+      <description>Show the lunar calendar tab in the full panel.</description>
+    </key>
+    <key name="module-music" type="b">
+      <default>true</default>
+      <summary>Music module</summary>
+      <description>Show the MPRIS music player tab in the full panel.</description>
+    </key>
+    <key name="module-timer" type="b">
+      <default>true</default>
+      <summary>Timer / stopwatch module</summary>
+      <description>Show the countdown / stopwatch tab in the full panel.</description>
+    </key>
+    <key name="module-translate" type="b">
+      <default>true</default>
+      <summary>Translate module</summary>
+      <description>Show the quick-translation tab in the full panel.</description>
+    </key>
+    <key name="module-colorpicker" type="b">
+      <default>true</default>
+      <summary>Color picker module</summary>
+      <description>Show the on-screen color picker tab in the full panel.</description>
+    </key>
+    <key name="weather-provider" enum="weather-provider">
+      <default>'wttr'</default>
+      <summary>Weather provider</summary>
+      <description>wttr.in needs no API key; OpenWeatherMap requires a key in the weather-api-key setting.</description>
+    </key>
+    <key name="weather-api-key" type="s">
+      <default>''</default>
+      <summary>Weather API key</summary>
+      <description>API key used by the OpenWeatherMap provider.</description>
+    </key>
+    <key name="weather-city" type="s">
+      <default>''</default>
+      <summary>Weather city / location</summary>
+      <description>City name used by the weather provider (e.g. Beijing). Empty = auto-detect (wttr.in by IP; OpenWeatherMap falls back to Beijing).</description>
+    </key>
+    <key name="weather-unit" enum="weather-unit">
+      <default>'metric'</default>
+      <summary>Weather units</summary>
+      <description>Metric (Celsius) or imperial (Fahrenheit).</description>
+    </key>
+    <key name="search-backend" enum="search-backend">
+      <default>'tracker'</default>
+      <summary>Search backend</summary>
+      <description>Backend used by the full-file search: tracker3, locate, a custom command, or apps only.</description>
+    </key>
+    <key name="search-command" type="s">
+      <default>''</default>
+      <summary>Custom search command</summary>
+      <description>Custom command for the 'command' search backend. Every output line is shown as a result; you may use {q} as a placeholder for the query.</description>
+    </key>
+    <key name="music-player" type="s">
+      <default>''</default>
+      <summary>Preferred music player</summary>
+      <description>MPRIS bus name of the preferred player (e.g. org.mpris.MediaPlayer2.spotify). Empty = use the first available player.</description>
+    </key>
+
+    <!-- ============ 高级 Advanced ============ -->
+    <key name="debug" type="b">
+      <default>false</default>
+      <summary>Debug mode</summary>
+      <description>Print verbose logs to the GNOME Shell journal (journalctl -f -o cat /usr/bin/gnome-shell).</description>
+    </key>
+  </schema>
+</schemalist>

@@ -1,0 +1,16 @@
+# build artifacts
+*.zip
+*.tar.gz
+build/
+
+# editor / OS noise
+*.swp
+*~
+.DS_Store
+
+# local reference sources (session research only, never commit)
+.ref/
+
+# compiled schemas / translation artifacts
+schemas/gschemas.compiled
+po/*.mo
