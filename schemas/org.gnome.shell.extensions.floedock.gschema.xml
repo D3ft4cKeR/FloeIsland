@@ -42,9 +42,9 @@
       <description>Corner radius used for the expanded surfaces (the dock capsule always uses a fully-rounded pill shape).</description>
     </key>
     <key name="accent-color" type="s">
-      <default>'#7fd4ff'</default>
+      <default>'#ffffff'</default>
       <summary>Accent color</summary>
-      <description>Accent color used for the active tab indicator, focus ring and highlights. Any CSS color string.</description>
+      <description>Accent color used for the active tab indicator, focus ring and highlights. Any CSS color string. Default white = Apple Dynamic-Island style.</description>
     </key>
     <key name="font-size" type="i">
       <default>15</default>
@@ -53,9 +53,9 @@
       <description>Font size (px) of the time/date text on the dock capsule.</description>
     </key>
     <key name="font-family" type="s">
-      <default>'DejaVu Sans Mono'</default>
+      <default>'Inter'</default>
       <summary>Clock font family</summary>
-      <description>Font family used for the dock clock, e.g. "DejaVu Sans Mono", "Noto Sans CJK SC" or "Ubuntu Mono".</description>
+      <description>Font family used for the dock clock, e.g. "Inter", "Noto Sans CJK SC", "Cantarell" or "SF Pro Display".</description>
     </key>
 
     <!-- ============ 行为 Behavior ============ -->

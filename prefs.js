@@ -54,9 +54,9 @@ export default class FloeDockPrefs {
         group.add(this._spinRow('blur-strength', '模糊强度', '0 = 无模糊，100 = 重霜', 0, 100, 1));
         group.add(this._spinRow('glass-opacity', '透明度', '玻璃底色不透明度（%），越高模糊越明显', 0, 100, 1));
         group.add(this._spinRow('corner-radius', '圆角半径', '展开面板的圆角（px）；胶囊态始终为全圆角', 0, 48, 1));
-        group.add(this._entryRow('accent-color', '主题色', 'CSS 颜色，如 #7fd4ff'));
+        group.add(this._entryRow('accent-color', '强调色', 'CSS 颜色，默认白色（苹果灵动岛风）'));
         group.add(this._spinRow('font-size', '时钟字号', '胶囊时钟文字大小（px）', 8, 48, 1));
-        group.add(this._entryRow('font-family', '时钟字体', '如 DejaVu Sans Mono / Noto Sans CJK SC / Ubuntu Mono'));
+        group.add(this._entryRow('font-family', '时钟字体', '如 Inter / SF Pro Display / Noto Sans CJK SC'));
         page.add(group);
         return page;
     }

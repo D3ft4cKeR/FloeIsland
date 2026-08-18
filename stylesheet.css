@@ -1,10 +1,17 @@
 /* ============================================================================
- * FloeDock 浮冰灵动岛 — 深色紧凑灵动岛风（v0.4）
+ * FloeDock 浮冰灵动岛 — 苹果灵动岛风（近黑、无彩强调、无阴影）
+ *
+ * 设计语言：
+ *   · 纯黑底 rgba(6,7,9)~rgba(20,21,25)，无蓝调渐变
+ *   · 强调色默认白色（与苹果 Dynamic Island 一致）
+ *   · 全局字体 Inter（回退 Cantarell / Noto Sans CJK SC）
+ *   · 无 box-shadow；细边框 + 大圆角
+ * ==========================================================================*/
  *
  * 设计语言：
  *   · 深色玻璃：近黑底 rgba(8,10,16)~rgba(22,28,40) 渐变 + 真背景模糊
  *   · 紧凑：小内边距、小间距，贴合面板高度
- *   · 强调色：冰蓝 #7fd4ff（Tab 指示器 / 焦点 / 进度条）
+ *   · 强调色：冰蓝 #ffffff（Tab 指示器 / 焦点 / 进度条）
  *   · 大圆角：胶囊全圆角，卡片 12-16px
  * ==========================================================================*/
 
@@ -43,19 +50,19 @@
     padding: 0 6px;
     /* 工具栏整体深色胶囊背景（纯黑不透明，简约） */
     background-color: rgba(9, 11, 16, 0.97);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     border-radius: 999px;
 }
 
 .floedock-tool {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.09);
 }
 
 .floedock-tool:hover {
-    background-color: rgba(127, 212, 255, 0.22);
-    border-color: rgba(127, 212, 255, 0.45);
+    background-color: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.55);
 }
 
 .floedock-tool:recording {
@@ -79,13 +86,13 @@
 }
 
 .floedock-search-entry {
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 5px 14px;
     color: rgba(255, 255, 255, 0.95);
-    caret-color: #7fd4ff;
-    selection-background-color: rgba(127, 212, 255, 0.35);
+    caret-color: #ffffff;
+    selection-background-color: rgba(255, 255, 255, 0.30);
 }
 
 .floedock-search-entry:hover {
@@ -94,11 +101,11 @@
 
 .floedock-search-entry:focus {
     background-color: rgba(255, 255, 255, 0.09);
-    border-color: rgba(127, 212, 255, 0.55);
+    border-color: rgba(255, 255, 255, 0.60);
 }
 
 .floedock-search-results-layer {
-    background-color: rgba(6, 9, 14, 0.88);
+    background-color: rgba(4, 4, 6, 0.92);
 }
 
 .floedock-search-scroll {
@@ -112,7 +119,7 @@
 }
 
 .floedock-search-result:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
 }
 
 .floedock-search-result-title {
@@ -141,7 +148,7 @@
 }
 
 .floedock-tab:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
 }
 
 .floedock-tab-icon {
@@ -163,9 +170,9 @@
 }
 
 .floedock-tab-indicator {
-    background-color: #7fd4ff;
+    background-color: #ffffff;
     border-radius: 2px;
-    box-shadow: 0 0 8px rgba(127, 212, 255, 0.7);
+    box-shadow: none;
 }
 
 /* 分页 */
@@ -201,12 +208,12 @@
 
 .floedock-icon-button {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 .floedock-icon-button:hover {
-    background-color: rgba(127, 212, 255, 0.20);
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .floedock-icon-button-icon {
@@ -225,7 +232,7 @@
 .floedock-segmented {
     spacing: 2px;
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
     padding: 2px;
 }
 
@@ -235,11 +242,11 @@
 }
 
 .floedock-seg-button:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
 }
 
 .floedock-seg-button:checked {
-    background-color: rgba(127, 212, 255, 0.26);
+    background-color: rgba(255, 255, 255, 0.22);
 }
 
 .floedock-seg-label {
@@ -259,12 +266,12 @@
     border-radius: 12px;
     /* 行占满面板宽度（卡片背景延伸到右，不再右侧大片空白） */
     background-color: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.04);
     margin: 2px 0;
 }
 
 .floedock-notif-row:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
     border-color: rgba(255, 255, 255, 0.10);
 }
 
@@ -315,7 +322,7 @@
 .floedock-weather-details {
     padding: 6px 8px;
     spacing: 12px; /* 左右两列间距 */
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.04);
     border-radius: 12px;
 }
 
@@ -348,8 +355,8 @@
 
 .floedock-weather-day {
     spacing: 2px;
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 6px 4px;
 }
@@ -376,8 +383,8 @@
 /* ================= 日历模块 ================= */
 /* 统一卡片：日/月/年三视图共用同一视觉语言（与详情/天气卡片一致） */
 .floedock-calendar-card {
-    background-color: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 14px;
     padding: 6px 8px;
     spacing: 6px;
@@ -414,16 +421,16 @@
 }
 
 .floedock-calendar-cell:hover {
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
 }
 
 .floedock-calendar-cell:today {
-    background-color: rgba(127, 212, 255, 0.16);
-    border: 1px solid rgba(127, 212, 255, 0.50);
+    background-color: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.50);
 }
 
 .floedock-calendar-cell:selected {
-    background-color: rgba(127, 212, 255, 0.28);
+    background-color: rgba(255, 255, 255, 0.22);
 }
 
 .floedock-calendar-day {
@@ -458,8 +465,8 @@
 }
 
 .floedock-calendar-mini-month {
-    background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 8px 4px;
     spacing: 4px;
@@ -515,7 +522,7 @@
 }
 
 .floedock-music-dim {
-    background-color: rgba(5, 8, 14, 0.55);
+    background-color: rgba(3, 4, 6, 0.60);
     border-radius: 14px;
 }
 
@@ -546,13 +553,13 @@
 
 .floedock-music-control {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .floedock-music-control:hover {
-    background-color: rgba(127, 212, 255, 0.22);
-    border-color: rgba(127, 212, 255, 0.40);
+    background-color: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.45);
 }
 
 .floedock-music-control-icon {
@@ -693,8 +700,8 @@
 
 .floedock-lock-notif {
     spacing: 10px;
-    background-color: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 8px 14px;
     min-width: 320px;
@@ -728,14 +735,14 @@
 }
 
 .floedock-timer-chip {
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 4px 14px;
 }
 
 .floedock-timer-chip:hover {
-    background-color: rgba(127, 212, 255, 0.20);
+    background-color: rgba(255, 255, 255, 0.15);
 }
 
 .floedock-timer-chip-label {
@@ -745,7 +752,7 @@
 }
 
 .floedock-timer-entry {
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 5px 12px;
@@ -753,15 +760,15 @@
 }
 
 .floedock-timer-action {
-    background-color: rgba(127, 212, 255, 0.18);
-    border: 1px solid rgba(127, 212, 255, 0.40);
+    background-color: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 999px;
     padding: 4px 16px;
     margin: 4px;
 }
 
 .floedock-timer-action:hover {
-    background-color: rgba(127, 212, 255, 0.30);
+    background-color: rgba(255, 255, 255, 0.22);
 }
 
 .floedock-timer-action-label {
@@ -781,7 +788,7 @@
 
 /* ================= 翻译模块 ================= */
 .floedock-translate-dir {
-    background-color: rgba(255, 255, 255, 0.07);
+    background-color: rgba(255, 255, 255, 0.06);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 3px 12px;
@@ -802,7 +809,7 @@
 }
 
 .floedock-translate-input {
-    background-color: rgba(255, 255, 255, 0.06);
+    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 6px 14px;
@@ -810,14 +817,14 @@
 }
 
 .floedock-translate-go {
-    background-color: rgba(127, 212, 255, 0.18);
-    border: 1px solid rgba(127, 212, 255, 0.40);
+    background-color: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.45);
     border-radius: 999px;
     padding: 5px 16px;
 }
 
 .floedock-translate-go:hover {
-    background-color: rgba(127, 212, 255, 0.30);
+    background-color: rgba(255, 255, 255, 0.22);
 }
 
 .floedock-translate-go-label {
@@ -827,7 +834,7 @@
 }
 
 .floedock-translate-result {
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.04);
     border-radius: 12px;
     padding: 10px 12px;
     spacing: 8px;
