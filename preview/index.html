@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FloeDock 浮冰灵动岛 — UI 预览</title>
+<style>
+/* ============ 基础 ============ */
+:root {
+    --accent: #7fd4ff;
+    --bg-dark: #05070c;
+    --glass-top: rgba(32, 39, 54, 0.62);
+    --glass-bot: rgba(9, 12, 19, 0.72);
+    --border: rgba(255, 255, 255, 0.10);
+    --border-hi: rgba(255, 255, 255, 0.18);
+    --text-hi: rgba(255, 255, 255, 0.96);
+    --text-mid: rgba(255, 255, 255, 0.70);
+    --text-low: rgba(255, 255, 255, 0.42);
+    --card: rgba(255, 255, 255, 0.05);
+    --radius: 16px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: system-ui, "Noto Sans CJK SC", sans-serif; }
+body {
+    background: var(--bg-dark);
+    color: var(--text-hi);
+    height: 100vh; overflow: hidden;
+    user-select: none;
+}
+/* 模拟桌面：渐变 + 半透明窗口，让模糊可见 */
+#desktop {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(1200px 600px at 20% 10%, rgba(64, 90, 150, 0.55), transparent 60%),
+        radial-gradient(900px 500px at 85% 75%, rgba(90, 60, 140, 0.5), transparent 60%),
+        linear-gradient(160deg, #141a2c 0%, #0a0e1a 55%, #060810 100%);
+}
+.window {
+    position: absolute; border-radius: 12px;
+    background: linear-gradient(150deg, rgba(255,255,255,0.10), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    backdrop-filter: blur(2px);
+}
+.window .bar { height: 26px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 6px; padding: 0 10px; }
+.window .bar i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.window .bar i:nth-child(1) { background: #ff5f57; }
+.window .bar i:nth-child(2) { background: #febc2e; }
+.window .bar i:nth-child(3) { background: #28c840; }
+.window .bar span { margin-left: 8px; font-size: 10px; color: var(--text-low); }
+
+/* ============ 顶部面板 ============ */
+#panel {
+    position: absolute; top: 0; left: 0; right: 0; height: 36px;
+    background: rgba(8, 11, 18, 0.55);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    backdrop-filter: blur(30px) saturate(1.3);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 20;
+}
+/* 胶囊 */
+#island { position: relative; }
+#capsule {
+    display: flex; align-items: center; justify-content: center;
+    padding: 0 22px; height: 34px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--glass-top), var(--glass-bot));
+    border: 1px solid var(--border-hi);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5), 0 8px 24px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08);
+    backdrop-filter: blur(24px);
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+#capsule:hover { transform: scale(1.02); }
+#clock {
+    font-family: "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
+    font-size: 15px; font-weight: 300; letter-spacing: 0.5px;
+    color: var(--text-hi); text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+}
+#hint { position: absolute; right: 18px; top: 8px; font-size: 11px; color: var(--text-low); text-align: right; line-height: 1.6; z-index: 5; }
+
+/* ============ 浮层（工具栏 / 面板） ============ */
+#float {
+    position: absolute;
+    top: 36px; left: 50%;
+    transform-origin: top center;
+    transform: translateX(-50%) scaleX(0.15) scaleY(0.1);
+    opacity: 0; pointer-events: none;
+    z-index: 30;
+}
+#float.open { pointer-events: auto; }
+#float .glass {
+    backdrop-filter: blur(28px) saturate(1.2);
+    background: linear-gradient(180deg, rgba(26,33,46,0.7), rgba(8,11,18,0.82));
+    border: 1px solid var(--border);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5), 0 30px 90px rgba(0,0,0,0.4);
+}
+
+/* 工具栏 */
+#toolbar {
+    display: flex; gap: 6px; padding: 4px 8px;
+    border-radius: 999px;
+}
+.tool {
+    width: 26px; height: 26px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; cursor: pointer;
+    background: rgba(16,21,30,0.6);
+    border: 1px solid var(--border);
+    transition: transform 0.15s, background 0.15s;
+    color: var(--text-hi);
+}
+.tool:hover { transform: scale(1.12); background: rgba(127,212,255,0.22); border-color: rgba(127,212,255,0.45); }
+.tool[data-rec] { background: rgba(230,60,60,0.45); border-color: rgba(255,120,120,0.7); }
+
+/* ============ 全功能面板 ============ */
+#panel-ui {
+    width: 640px; border-radius: var(--radius);
+    overflow: hidden;
+    opacity: 0;
+}
+#panel-ui .body { padding: 12px 14px 12px; display: flex; flex-direction: column; gap: 8px; }
+#searchbar {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--border);
+    border-radius: 999px; padding: 6px 14px;
+    color: var(--text-low); font-size: 13px;
+}
+#searchbar::before { content: "🔍"; opacity: 0.7; }
+
+/* Tab */
+#tabs { display: flex; gap: 2px; position: relative; padding: 0 2px; }
+.tab {
+    display: flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px; cursor: pointer;
+    font-size: 12px; color: var(--text-mid); font-weight: 500;
+}
+.tab:hover { background: rgba(255,255,255,0.08); color: var(--text-hi); }
+.tab .ico { font-size: 13px; }
+#indicator {
+    position: absolute; bottom: 0; height: 3px; border-radius: 2px;
+    background: var(--accent); box-shadow: 0 0 8px rgba(127,212,255,0.7);
+    transition: left 0.34s cubic-bezier(0.34,1.56,0.64,1), width 0.34s;
+}
+
+/* 内容区 */
+#content { position: relative; height: 300px; overflow: hidden; border-radius: 12px; }
+.module { position: absolute; inset: 0; padding: 4px 6px; display: none; flex-direction: column; gap: 10px; overflow: auto; }
+.module.active { display: flex; animation: modin 0.3s ease; }
+@keyframes modin { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
+
+/* 通用组件 */
+.card { background: var(--card); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; }
+.mtitle { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+.mtitle .ico { font-size: 16px; }
+
+/* 消息 */
+.msg { display: flex; gap: 10px; padding: 8px 10px; align-items: flex-start; cursor: pointer; }
+.msg:hover { background: rgba(255,255,255,0.06); }
+.msg .ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex: none; }
+.msg .t { color: var(--text-low); font-size: 10px; display: flex; justify-content: space-between; }
+.msg .h { font-weight: 600; font-size: 13px; }
+.msg .b { color: var(--text-mid); font-size: 12px; }
+
+/* 天气 */
+.w-now { display: flex; align-items: center; gap: 16px; padding: 6px 8px; }
+.w-temp { font-size: 46px; font-weight: 200; }
+.w-desc { color: var(--text-mid); font-size: 14px; }
+.w-detail { padding: 8px 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 18px; }
+.w-detail div { display: flex; justify-content: space-between; font-size: 11px; }
+.w-detail b { color: var(--text-hi); font-weight: 500; }
+.w-detail span { color: var(--text-low); }
+.w-days { display: flex; gap: 8px; }
+.w-day { flex: 1; text-align: center; padding: 8px 4px; }
+.w-day .ic { font-size: 22px; }
+.w-day div { font-size: 11px; margin-top: 2px; }
+
+/* 日历 */
+.cal-nav { display: flex; align-items: center; justify-content: space-between; }
+.cal-nav button { background: rgba(255,255,255,0.06); border: 1px solid var(--border); color: var(--text-hi); border-radius: 999px; width: 26px; height: 26px; cursor: pointer; font-size: 13px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 2px; }
+.cal-dow { text-align: center; font-size: 10px; color: var(--text-low); padding: 2px 0; }
+.cal-cell { text-align: center; padding: 3px 0 1px; border-radius: 10px; cursor: pointer; }
+.cal-cell:hover { background: rgba(255,255,255,0.08); }
+.cal-cell .d { font-size: 13px; font-weight: 600; }
+.cal-cell .l { font-size: 9px; color: var(--text-low); }
+.cal-cell.fest .l { color: #ffd78f; }
+.cal-cell.today { background: rgba(127,212,255,0.16); border: 1px solid rgba(127,212,255,0.5); }
+.cal-cell.today .d { color: var(--accent); }
+.cal-empty { visibility: hidden; }
+
+/* 音乐 */
+.music-wrap { position: relative; border-radius: 14px; overflow: hidden; flex: 1; display: flex; align-items: center; justify-content: center; }
+.music-bg { position: absolute; inset: -30px; filter: blur(40px); opacity: 0.5;
+    background: radial-gradient(400px 300px at 30% 30%, #3a5a9a, transparent 70%), radial-gradient(300px 250px at 75% 70%, #6a3a9a, transparent 70%);
+}
+.music-in { position: relative; text-align: center; }
+.music-cover { width: 92px; height: 92px; margin: 0 auto; border-radius: 14px; background: linear-gradient(135deg, #3a5a9a, #6a3a9a); box-shadow: 0 6px 20px rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; font-size: 40px; }
+.music-title { margin-top: 8px; font-weight: 700; font-size: 15px; }
+.music-artist { color: var(--text-mid); font-size: 12px; }
+.music-ctl { display: flex; justify-content: center; gap: 16px; margin-top: 10px; }
+.music-ctl button { width: 34px; height: 34px; border-radius: 50%; border: 1px solid var(--border); background: rgba(255,255,255,0.08); color: #fff; cursor: pointer; font-size: 14px; }
+.music-ctl button:hover { background: rgba(127,212,255,0.22); }
+.music-prog { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 10px; color: var(--text-mid); }
+.music-track { flex: 1; height: 5px; border-radius: 3px; background: rgba(0,0,0,0.45); overflow: hidden; }
+.music-track i { display: block; height: 100%; width: 62%; background: var(--accent); border-radius: 3px; }
+
+/* 计时 */
+.timer-display { text-align: center; font-size: 52px; font-weight: 200; font-family: "DejaVu Sans Mono", monospace; }
+.timer-chips { display: flex; justify-content: center; gap: 8px; }
+.timer-chips button { padding: 4px 14px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.07); color: var(--text-hi); font-size: 11px; cursor: pointer; }
+.timer-chips button:hover { background: rgba(127,212,255,0.2); }
+.timer-ctls { display: flex; justify-content: center; gap: 12px; }
+.timer-ctls button { padding: 5px 20px; border-radius: 999px; border: 1px solid rgba(127,212,255,0.4); background: rgba(127,212,255,0.18); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; }
+.timer-ctls button:hover { background: rgba(127,212,255,0.3); }
+
+/* 翻译 */
+.t-input { display: flex; gap: 8px; }
+.t-input input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 999px; padding: 8px 14px; color: var(--text-hi); font-size: 13px; outline: none; }
+.t-input input:focus { border-color: rgba(127,212,255,0.55); }
+.t-dir { background: rgba(255,255,255,0.07); border: 1px solid var(--border); color: var(--text-hi); border-radius: 999px; padding: 0 14px; font-size: 12px; cursor: pointer; }
+.t-result { padding: 12px; font-size: 14px; color: var(--text-hi); }
+.t-result small { display: block; color: var(--text-low); font-size: 11px; margin-bottom: 6px; }
+
+/* ============ 演示控制 ============ */
+#demos { position: absolute; left: 18px; bottom: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 40; }
+#demos button {
+    width: 150px; text-align: left; padding: 8px 12px; border-radius: 10px;
+    background: rgba(255,255,255,0.07); border: 1px solid var(--border);
+    color: var(--text-hi); font-size: 12px; cursor: pointer;
+}
+#demos button:hover { background: rgba(127,212,255,0.18); }
+
+/* 通知横幅演示 */
+#notif-banner {
+    position: absolute; top: 56px; left: 50%; transform: translateX(-50%) translateY(-20px);
+    display: flex; gap: 10px; align-items: flex-start;
+    padding: 10px 14px; border-radius: 14px; opacity: 0; pointer-events: none;
+    background: linear-gradient(180deg, rgba(28,35,50,0.85), rgba(10,13,20,0.9));
+    border: 1px solid var(--border-hi);
+    backdrop-filter: blur(28px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+    transition: opacity 0.3s, transform 0.3s;
+    z-index: 35; width: 380px;
+}
+#notif-banner.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+#notif-banner .ic { width: 34px; height: 34px; border-radius: 9px; background: linear-gradient(135deg,#4a9,#4ac); display:flex; align-items:center; justify-content:center; font-size:16px; }
+#notif-banner .app { font-size: 10px; color: var(--text-low); display: flex; justify-content: space-between; }
+#notif-banner .tt { font-weight: 600; font-size: 13px; margin-top: 2px; }
+#notif-banner .bb { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
+
+/* 锁屏 */
+#lockscreen {
+    position: fixed; inset: 0; z-index: 100; display: none;
+    background: linear-gradient(180deg, rgba(10,14,22,0.92), rgba(4,6,10,0.96));
+    align-items: center; justify-content: center; flex-direction: column; gap: 18px;
+}
+#lockscreen.show { display: flex; }
+#lockscreen .big { font-size: 88px; font-weight: 200; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
+#lockscreen .sub { font-size: 18px; color: var(--text-hi); }
+#lockscreen .lunar { font-size: 13px; color: var(--text-mid); }
+#lockscreen .lc-card { text-align: center; padding: 30px 60px; border-radius: 28px;
+    background: linear-gradient(180deg, rgba(26,33,46,0.7), rgba(9,12,19,0.8));
+    border: 1px solid var(--border); backdrop-filter: blur(30px);
+    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+#lockscreen .lock-notif { display: flex; gap: 10px; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 8px 14px; width: 380px; }
+#lockscreen .lock-notif .app { font-size: 10px; color: var(--text-low); }
+#lockscreen .lock-notif .tt { font-size: 13px; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div id="desktop">
+  <div class="window" style="width: 420px; height: 260px; top: 90px; left: 90px;">
+    <div class="bar"><i></i><i></i><i></i><span>文件管理器</span></div>
+  </div>
+  <div class="window" style="width: 360px; height: 220px; top: 200px; right: 120px;">
+    <div class="bar"><i></i><i></i><i></i><span>终端</span></div>
+  </div>
+  <div class="window" style="width: 520px; height: 300px; top: 320px; left: 260px;">
+    <div class="bar"><i></i><i></i><i></i><span>浏览器 — 页面文字被面板模糊覆盖的效果示意</span></div>
+  </div>
+</div>
+
+<div id="panel">
+  <div id="island">
+    <div id="capsule"><span id="clock">14:32&ensp;8月18日 周二</span></div>
+    <div id="float">
+      <div id="toolbar" class="glass">
+        <div class="tool" title="截图">📷</div>
+        <div class="tool" title="区域截图">✂️</div>
+        <div class="tool" title="录音" data-rec>🎙️</div>
+        <div class="tool" title="全屏录像">🎬</div>
+        <div class="tool" title="更多">⋯</div>
+        <div class="tool" title="设置">⚙️</div>
+      </div>
+      <div id="panel-ui" class="glass">
+        <div class="body">
+          <div id="searchbar">搜索文件与应用…</div>
+          <div id="tabs">
+            <div class="tab active" data-m="msg"><span class="ico">🔔</span>消息</div>
+            <div class="tab" data-m="weather"><span class="ico">🌤️</span>天气</div>
+            <div class="tab" data-m="cal"><span class="ico">📅</span>日历</div>
+            <div class="tab" data-m="music"><span class="ico">🎵</span>音乐</div>
+            <div class="tab" data-m="timer"><span class="ico">⏱️</span>计时</div>
+            <div class="tab" data-m="translate"><span class="ico">🌐</span>翻译</div>
+            <div id="indicator"></div>
+          </div>
+          <div id="content">
+            <div class="module active" id="m-msg">
+              <div class="msg"><div class="ic" style="background:#2d6;color:#fff">💬</div>
+                <div style="flex:1"><div class="t"><span>Telegram</span><span>14:20</span></div>
+                <div class="h">张三：晚上一起吃饭？</div><div class="b">明天见 👋</div></div></div>
+              <div class="msg"><div class="ic" style="background:#26a;color:#fff">📧</div>
+                <div style="flex:1"><div class="t"><span>邮件</span><span>13:05</span></div>
+                <div class="h">新邮件：FloeDock v0.4.0</div><div class="b">深色灵动岛风 UI 已发布…</div></div></div>
+              <div class="msg"><div class="ic" style="background:#a62;color:#fff">🖥️</div>
+                <div style="flex:1"><div class="t"><span>系统</span><span>12:40</span></div>
+                <div class="h">屏幕截图已保存</div><div class="b">~/Pictures/Screenshot from 2026-08-18 12-40-01.png</div></div></div>
+            </div>
+            <div class="module" id="m-weather">
+              <div class="mtitle"><span class="ico">🌤️</span>天气</div>
+              <div class="w-now"><div style="font-size:52px">☀️</div>
+                <div><div class="w-temp">32°</div><div class="w-desc">晴 · 体感 34°</div></div></div>
+              <div class="card w-detail">
+                <div><span>最高/最低</span><b>35° / 26°</b></div>
+                <div><span>降水概率</span><b>10%</b></div>
+                <div><span>湿度</span><b>58%</b></div>
+                <div><span>风速</span><b>12 km/h</b></div>
+                <div><span>紫外线</span><b>强</b></div>
+                <div><span>日出/日落</span><b>05:22 / 18:58</b></div>
+              </div>
+              <div class="w-days">
+                <div class="w-day card"><div>周三</div><div class="ic">☀️</div><div>35° 26°</div></div>
+                <div class="w-day card"><div>周四</div><div class="ic">⛅</div><div>33° 25°</div></div>
+                <div class="w-day card"><div>周五</div><div class="ic">🌧️</div><div>28° 23°</div></div>
+              </div>
+            </div>
+            <div class="module" id="m-cal">
+              <div class="mtitle"><span class="ico">📅</span>日历 · 2026年8月</div>
+              <div class="cal-grid" id="cal-grid"></div>
+              <div class="card" style="padding:10px 12px; font-size:12px">
+                <div style="font-weight:700">8月18日 星期二</div>
+                <div style="color:var(--text-mid); margin-top:2px">丙午马年 · 七月初六 · 生肖马</div>
+                <div style="color:#ffd78f; margin-top:2px">8月19日 七夕 · 8月23日 处暑</div>
+              </div>
+            </div>
+            <div class="module" id="m-music">
+              <div class="mtitle"><span class="ico">🎵</span>音乐 <span style="margin-left:auto;font-size:10px;color:var(--text-low)">Spotify</span></div>
+              <div class="music-wrap card">
+                <div class="music-bg"></div>
+                <div class="music-in">
+                  <div class="music-cover">🎧</div>
+                  <div class="music-title">夜空中最亮的星</div>
+                  <div class="music-artist">逃跑计划</div>
+                  <div class="music-ctl">
+                    <button>⏮</button><button style="background:rgba(127,212,255,0.25)">⏸</button><button>⏭</button>
+                  </div>
+                  <div class="music-prog"><span>1:24</span><div class="music-track"><i></i></div><span>3:47</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="module" id="m-timer">
+              <div class="mtitle"><span class="ico">⏱️</span>计时</div>
+              <div class="timer-display">12:00</div>
+              <div class="timer-chips">
+                <button>1分</button><button>3分</button><button>5分</button>
+                <button>10分</button><button>25分</button>
+              </div>
+              <div class="timer-ctls"><button>开始</button><button>重置</button></div>
+            </div>
+            <div class="module" id="m-translate">
+              <div class="mtitle"><span class="ico">🌐</span>翻译 <span style="margin-left:auto"><button class="t-dir">中 → EN</button></span></div>
+              <div class="t-input"><input placeholder="输入要翻译的文本…"><button class="t-dir">翻译</button></div>
+              <div class="card t-result"><small>翻译结果</small>Hello, world! This is the FloeDock translate module preview.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="hint">FloeDock UI 预览<br>悬停胶囊 → 工具栏 · 点击胶囊 → 面板</div>
+</div>
+
+<div id="notif-banner">
+  <div class="ic">💬</div>
+  <div style="flex:1">
+    <div class="app"><span>Telegram</span><span>14:32</span></div>
+    <div class="tt">张三：晚上一起吃饭？</div>
+    <div class="bb">明天见 👋</div>
+  </div>
+</div>
+
+<div id="lockscreen">
+  <div class="lc-card">
+    <div class="big">14:32</div>
+    <div class="sub">8月18日 星期二</div>
+    <div class="lunar">丙午马年 · 七月初六 · 七夕将至</div>
+  </div>
+  <div class="lock-notif"><div style="font-size:22px">💬</div>
+    <div><div class="app">Telegram</div><div class="tt">张三：晚上一起吃饭？</div></div></div>
+  <div style="color:var(--text-low);font-size:11px">锁屏扩展预览 —— 按 Esc 返回</div>
+</div>
+
+<div id="demos">
+  <button onclick="showBanner()">🔔 通知上岛</button>
+  <button onclick="toggleLock()">🔒 锁屏扩展</button>
+  <button onclick="reset()">🔄 收起所有</button>
+</div>
+
+<script>
+/* ============ 状态机：DOCK / TOOLBAR / PANEL ============ */
+const floatEl = document.getElementById('float');
+const toolbar = document.getElementById('toolbar');
+const panelUI = document.getElementById('panel-ui');
+const capsule = document.getElementById('capsule');
+const clockEl = document.getElementById('clock');
+const demos = document.getElementById('demos');
+
+let state = 'dock';
+let hoverTimer = null;
+let pullDone = false;
+
+const CLOCK_TEXT = ['14:32  8月18日 周二', '14:33  8月18日 周二', '14:34  8月18日 周二'];
+let ci = 0;
+setInterval(() => { ci = (ci + 1) % CLOCK_TEXT.length; clockEl.innerHTML = CLOCK_TEXT[ci]; }, 3000);
+
+function setFloat(w, h, sx, sy, cb) {
+  floatEl.style.width = w + 'px';
+  floatEl.style.height = h + 'px';
+  floatEl.style.transform = `translateX(-50%) scaleX(${sx}) scaleY(${sy})`;
+  cb && cb();
+}
+
+function setState(next) {
+  if (state === next) return;
+  const prev = state;
+  state = next;
+
+  if (next === 'dock') {
+    floatEl.classList.remove('open');
+    // 收起：缩小淡出
+    floatEl.style.transition = 'transform 0.2s, opacity 0.2s';
+    floatEl.style.transform = 'translateX(-50%) scaleX(0.1) scaleY(0.1)';
+    floatEl.style.opacity = 0;
+    setTimeout(() => {
+      toolbar.style.display = '';
+      panelUI.style.opacity = 0;
+      panelUI.style.display = '';
+    }, 200);
+    return;
+  }
+
+  if (next === 'toolbar') {
+    floatEl.style.transition = 'transform 0.4s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s';
+    toolbar.style.display = 'flex';
+    panelUI.style.display = 'none';
+    panelUI.style.opacity = 0;
+    floatEl.classList.add('open');
+    floatEl.style.opacity = 1;
+    floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(1)';
+    // 图标依次弹入
+    [...toolbar.children].forEach((t, i) => {
+      t.style.opacity = 0; t.style.transform = 'scale(0.4)';
+      setTimeout(() => { t.style.transition = 'opacity 0.25s, transform 0.25s cubic-bezier(0.34,1.56,0.64,1)'; t.style.opacity = 1; t.style.transform = 'scale(1)'; }, i * 40);
+    });
+    return;
+  }
+
+  if (next === 'panel') {
+    // 两阶段：先横拉 scaleX，再下沉 scaleY
+    floatEl.classList.add('open');
+    toolbar.style.display = 'none';
+    panelUI.style.display = 'block';
+    panelUI.style.opacity = 0;
+    floatEl.style.opacity = 1;
+    floatEl.style.transition = 'none';
+    setFloat(640, 420, 0.15, 0.1);
+    requestAnimationFrame(() => {
+      floatEl.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+      floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(0.1)';
+      setTimeout(() => {
+        // 下沉
+        floatEl.style.transition = 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s';
+        floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(1)';
+        panelUI.style.transition = 'opacity 0.3s';
+        panelUI.style.opacity = 1;
+        updateIndicator(0);
+      }, 450);
+    });
+  }
+}
+
+/* 胶囊：hover 1 秒出工具栏；点击直接开面板 */
+capsule.addEventListener('mouseenter', () => {
+  if (state !== 'dock') return;
+  hoverTimer = setTimeout(() => { if (state === 'dock') setState('toolbar'); }, 1000);
+});
+capsule.addEventListener('mouseleave', () => {
+  clearTimeout(hoverTimer);
+  if (state === 'toolbar') setState('dock');
+});
+capsule.addEventListener('click', () => setState('panel'));
+toolbar.addEventListener('mouseenter', () => clearTimeout(hoverTimer));
+toolbar.addEventListener('mouseleave', () => { if (state === 'toolbar') setState('dock'); });
+toolbar.querySelectorAll('.tool').forEach(t => {
+  t.addEventListener('click', e => e.stopPropagation());
+});
+
+/* 工具栏末尾三点 → 面板 */
+toolbar.children[4].addEventListener('click', () => setState('panel'));
+
+/* ============ Tab 切换 ============ */
+const tabs = [...document.querySelectorAll('.tab')];
+const indicator = document.getElementById('indicator');
+let curTab = 0;
+
+function updateIndicator(i) {
+  const tab = tabs[i];
+  indicator.style.left = (tab.offsetLeft + tab.offsetWidth / 2 - indicator.offsetWidth / 2) + 'px';
+  indicator.style.width = Math.min(tab.offsetWidth, 90) + 'px';
+}
+tabs.forEach((tab, i) => {
+  tab.addEventListener('click', () => {
+    tabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+    document.getElementById('m-' + tab.dataset.m).classList.add('active');
+    updateIndicator(i);
+  });
+});
+window.addEventListener('load', () => setTimeout(() => updateIndicator(0), 60));
+
+/* ============ 日历（2026年8月真实农历数据） ============ */
+const LUNAR = {"1":{"day":"十九","fest":"建军节"},"2":{"day":"二十","fest":""},"3":{"day":"廿一","fest":""},"4":{"day":"廿二","fest":""},"5":{"day":"廿三","fest":""},"6":{"day":"廿四","fest":""},"7":{"day":"廿五","fest":"立秋"},"8":{"day":"廿六","fest":""},"9":{"day":"廿七","fest":""},"10":{"day":"廿八","fest":""},"11":{"day":"廿九","fest":""},"12":{"day":"三十","fest":""},"13":{"day":"初一","fest":""},"14":{"day":"初二","fest":""},"15":{"day":"初三","fest":""},"16":{"day":"初四","fest":""},"17":{"day":"初五","fest":""},"18":{"day":"初六","fest":""},"19":{"day":"初七","fest":"七夕"},"20":{"day":"初八","fest":""},"21":{"day":"初九","fest":""},"22":{"day":"初十","fest":""},"23":{"day":"十一","fest":"处暑"},"24":{"day":"十二","fest":""},"25":{"day":"十三","fest":""},"26":{"day":"十四","fest":""},"27":{"day":"十五","fest":"中元节"},"28":{"day":"十六","fest":""},"29":{"day":"十七","fest":""},"30":{"day":"十八","fest":""},"31":{"day":"十九","fest":""}};
+(function buildCal() {
+  const grid = document.getElementById('cal-grid');
+  const dow = ['一','二','三','四','五','六','日'];
+  dow.forEach(d => { const e = document.createElement('div'); e.className = 'cal-dow'; e.textContent = d; grid.appendChild(e); });
+  const offset = (new Date(2026, 7, 1).getDay() + 6) % 7; // 周一起始
+  for (let i = 0; i < offset; i++) { const e = document.createElement('div'); e.className = 'cal-cell cal-empty'; grid.appendChild(e); }
+  for (let d = 1; d <= 31; d++) {
+    const cell = document.createElement('div');
+    cell.className = 'cal-cell' + (d === 18 ? ' today' : '') + (LUNAR[d].fest ? ' fest' : '');
+    const sub = LUNAR[d].fest || LUNAR[d].day;
+    cell.innerHTML = `<div class="d">${d}</div><div class="l">${sub}</div>`;
+    grid.appendChild(cell);
+  }
+})();
+
+/* ============ 演示 ============ */
+const banner = document.getElementById('notif-banner');
+let bannerTimer = null;
+function showBanner() {
+  banner.classList.add('show');
+  clearTimeout(bannerTimer);
+  bannerTimer = setTimeout(() => banner.classList.remove('show'), 3500);
+}
+const lock = document.getElementById('lockscreen');
+function toggleLock() { lock.classList.toggle('show'); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape') lock.classList.remove('show'); });
+function reset() { setState('dock'); banner.classList.remove('show'); }
+
+/* 初始：先展示 Dock 态 */
+setTimeout(() => { capsule.dispatchEvent(new MouseEvent('mouseenter')); }, 800);
+</script>
+</body>
+</html>
