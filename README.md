@@ -35,22 +35,41 @@ sudo apt install gnome-shell-extension-prefs gnome-tweaks \
 
 ## 安装
 
+### 方式一：一键脚本（推荐）
+
+```bash
+chmod +x install.sh
+./install.sh            # 校验 → 打包 → 卸载旧版 → 安装 → 启用 → 状态检查
+./install.sh --uninstall   # 卸载
+```
+
+脚本会强制清空旧目录再安装，避免"改了代码但版本号不变"之类的残留问题；安装后自动检查扩展状态，ERROR 时直接给出抓日志命令。
+
+### 方式二：手动
+
 ```bash
 make zip                                   # 打包（同时校验 schema 与语法）
 gnome-extensions install floedock@floedock.github.io.zip --force
+gnome-extensions disable floedock@floedock.github.io   # 强制重载
 gnome-extensions enable floedock@floedock.github.io
+gnome-extensions info floedock@floedock.github.io      # 查看 版本/状态
 ```
 
-或直接安装到用户目录：
+或直接安装到用户目录：`make install`；强制重装：`make reinstall`。
 
-```bash
-make install
-# 然后注销重登录（Wayland 下无法热重启 Shell）
-```
+> ⚠️ GNOME 50 / Wayland：修改后需要**注销重新登录**才会加载新代码；首次安装后同样需要重登录。
+> 排错：`make status` 看状态，`make logs` 抓日志。
 
-卸载：`make uninstall`。
+### 常见问题
 
-> ⚠️ GNOME 50 / Wayland：扩展加载后需要**注销重新登录**才能生效。
+| 症状 | 处理 |
+| --- | --- |
+| `状态: ERROR` | `make logs`，把 `JS ERROR` 和 Stack trace 发给我 |
+| `enable` 提示"扩展不存在" | 刚装完还没重登录，Shell 尚未扫描到新目录 |
+| 版本号不更新 | 用 `./install.sh`（会强制清空旧目录） |
+| 修改代码后无变化 | Wayland 下必须注销重登录，`enable/disable` 只对已加载的扩展生效 |
+
+卸载：`./install.sh --uninstall` 或 `make uninstall`。
 
 ## 使用
 
