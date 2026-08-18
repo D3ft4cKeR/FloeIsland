@@ -30,10 +30,10 @@
       <description>Radius of the real background blur (Shell.BlurEffect, BACKGROUND mode) applied to the capsule and expanded surfaces. 0 = no blur.</description>
     </key>
     <key name="glass-opacity" type="i">
-      <default>30</default>
+      <default>45</default>
       <range min="0" max="100"/>
       <summary>Glass background opacity</summary>
-      <description>Opacity of the ice-glass background fill (0 = transparent, 100 = opaque). Higher values make the real background blur more visible.</description>
+      <description>Opacity of the dark glass background fill (0 = transparent, 100 = opaque). Higher values make the real background blur more visible.</description>
     </key>
     <key name="corner-radius" type="i">
       <default>16</default>

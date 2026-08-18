@@ -1,9 +1,12 @@
-/* FloeDock 浮冰灵动岛 — 玻璃拟态样式
+/* ============================================================================
+ * FloeDock 浮冰灵动岛 — 深色紧凑灵动岛风（v0.4）
  *
- * St 不支持 CSS backdrop-filter，浮冰玻璃效果由「多层半透明渐变 + 高光
- * + 外阴影」近似；动态数值（模糊强度/透明度/圆角/主题色）由 dock.js
- * 以内联 style 注入（dock.theme）。
- */
+ * 设计语言：
+ *   · 深色玻璃：近黑底 rgba(8,10,16)~rgba(22,28,40) 渐变 + 真背景模糊
+ *   · 紧凑：小内边距、小间距，贴合面板高度
+ *   · 强调色：冰蓝 #7fd4ff（Tab 指示器 / 焦点 / 进度条）
+ *   · 大圆角：胶囊全圆角，卡片 12-16px
+ * ==========================================================================*/
 
 /* ================= 岛屿 ================= */
 .floedock-button {
@@ -16,7 +19,7 @@
 }
 
 .floedock-clock {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
 /* ================= 悬停工具栏 ================= */
@@ -27,57 +30,57 @@
 
 .floedock-tool {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    background-color: rgba(16, 21, 30, 0.55);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .floedock-tool:hover {
-    background-color: rgba(255, 255, 255, 0.24);
-    border-color: rgba(255, 255, 255, 0.38);
+    background-color: rgba(127, 212, 255, 0.22);
+    border-color: rgba(127, 212, 255, 0.45);
 }
 
 .floedock-tool:recording {
-    background-color: rgba(230, 60, 60, 0.50);
-    border-color: rgba(255, 130, 130, 0.80);
+    background-color: rgba(230, 60, 60, 0.45);
+    border-color: rgba(255, 120, 120, 0.70);
 }
 
 .floedock-tool-icon {
-    opacity: 0.85;
+    opacity: 0.90;
 }
 
 /* ================= 全功能面板 ================= */
 .floedock-panel-body {
-    padding: 10px 14px 12px 14px;
+    padding: 10px 12px 10px 12px;
     spacing: 6px;
 }
 
 /* 搜索 */
 .floedock-search-row {
-    padding: 2px 0;
+    padding: 0 2px;
 }
 
 .floedock-search-entry {
-    background-color: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
-    padding: 6px 14px;
+    padding: 5px 14px;
     color: rgba(255, 255, 255, 0.95);
     caret-color: #7fd4ff;
     selection-background-color: rgba(127, 212, 255, 0.35);
 }
 
 .floedock-search-entry:hover {
-    background-color: rgba(255, 255, 255, 0.16);
+    background-color: rgba(255, 255, 255, 0.09);
 }
 
 .floedock-search-entry:focus {
-    background-color: rgba(255, 255, 255, 0.16);
-    border-color: rgba(127, 212, 255, 0.6);
+    background-color: rgba(255, 255, 255, 0.09);
+    border-color: rgba(127, 212, 255, 0.55);
 }
 
 .floedock-search-results-layer {
-    background-color: rgba(12, 18, 30, 0.62);
+    background-color: rgba(6, 9, 14, 0.88);
 }
 
 .floedock-search-scroll {
@@ -87,11 +90,11 @@
 .floedock-search-result {
     spacing: 10px;
     padding: 6px 10px;
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .floedock-search-result:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .floedock-search-result-title {
@@ -101,10 +104,10 @@
 
 .floedock-search-result-subtitle {
     font-size: 10pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
 }
 
-/* Tab 标签栏 */
+/* Tab 标签栏（图标 + 文字） */
 .floedock-tabs {
     padding: 0 2px;
 }
@@ -114,17 +117,27 @@
 }
 
 .floedock-tab {
-    padding: 4px 12px;
+    spacing: 6px;
+    padding: 4px 10px;
     border-radius: 999px;
 }
 
 .floedock-tab:hover {
-    background-color: rgba(255, 255, 255, 0.10);
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+.floedock-tab-icon {
+    color: rgba(255, 255, 255, 0.70);
 }
 
 .floedock-tab-label {
     color: rgba(255, 255, 255, 0.72);
     font-weight: 500;
+    font-size: 10.5pt;
+}
+
+.floedock-tab:hover .floedock-tab-icon {
+    color: rgba(255, 255, 255, 0.95);
 }
 
 .floedock-tab:hover .floedock-tab-label {
@@ -134,47 +147,48 @@
 .floedock-tab-indicator {
     background-color: #7fd4ff;
     border-radius: 2px;
-    box-shadow: 0 0 8px rgba(127, 212, 255, 0.8);
+    box-shadow: 0 0 8px rgba(127, 212, 255, 0.7);
 }
 
 /* 分页 */
 .floedock-pager {
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .floedock-page {
-    padding: 2px 4px;
+    padding: 0 2px;
 }
 
 /* ================= 通用模块 ================= */
 .floedock-module {
-    padding: 4px 6px;
+    padding: 2px 4px;
     spacing: 8px;
 }
 
 .floedock-module-header {
     spacing: 8px;
+    padding: 0 2px;
 }
 
 .floedock-module-title {
     font-weight: 700;
-    font-size: 13pt;
+    font-size: 12.5pt;
     color: rgba(255, 255, 255, 0.95);
 }
 
 .floedock-empty {
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.40);
     font-size: 11pt;
 }
 
 .floedock-icon-button {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 .floedock-icon-button:hover {
-    background-color: rgba(255, 255, 255, 0.20);
+    background-color: rgba(127, 212, 255, 0.20);
 }
 
 .floedock-icon-button-icon {
@@ -182,7 +196,7 @@
 }
 
 .floedock-scroll {
-    border-radius: 8px;
+    border-radius: 10px;
 }
 
 .floedock-spinner {
@@ -193,26 +207,27 @@
 .floedock-segmented {
     spacing: 2px;
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.08);
+    background-color: rgba(255, 255, 255, 0.06);
     padding: 2px;
 }
 
 .floedock-seg-button {
     border-radius: 999px;
-    padding: 3px 10px;
+    padding: 2px 10px;
 }
 
 .floedock-seg-button:hover {
-    background-color: rgba(255, 255, 255, 0.10);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .floedock-seg-button:checked {
-    background-color: rgba(127, 212, 255, 0.28);
+    background-color: rgba(127, 212, 255, 0.26);
 }
 
 .floedock-seg-label {
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.70);
     font-weight: 500;
+    font-size: 10.5pt;
 }
 
 .floedock-seg-button:checked .floedock-seg-label {
@@ -222,21 +237,21 @@
 /* ================= 消息模块 ================= */
 .floedock-notif-row {
     spacing: 10px;
-    padding: 8px 10px;
-    border-radius: 10px;
+    padding: 7px 10px;
+    border-radius: 12px;
 }
 
 .floedock-notif-row:hover {
-    background-color: rgba(255, 255, 255, 0.10);
+    background-color: rgba(255, 255, 255, 0.07);
 }
 
 .floedock-notif-icon {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.90);
 }
 
 .floedock-notif-app {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
 }
 
 .floedock-notif-title {
@@ -245,12 +260,12 @@
 }
 
 .floedock-notif-body {
-    color: rgba(255, 255, 255, 0.78);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .floedock-notif-time {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.40);
 }
 
 /* ================= 天气模块 ================= */
@@ -260,7 +275,7 @@
 
 .floedock-weather-now {
     spacing: 14px;
-    padding: 6px 4px;
+    padding: 6px 6px 2px 6px;
 }
 
 .floedock-weather-temp {
@@ -271,14 +286,14 @@
 
 .floedock-weather-desc {
     font-size: 12pt;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.72);
 }
 
 .floedock-weather-details {
-    padding: 2px 10px;
+    padding: 6px 12px;
     spacing: 4px;
-    background-color: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
 }
 
 .floedock-weather-detail {
@@ -288,7 +303,7 @@
 
 .floedock-weather-detail-key {
     font-size: 9.5pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
 }
 
 .floedock-weather-detail-value {
@@ -298,35 +313,40 @@
 
 .floedock-weather-forecast {
     spacing: 8px;
-    padding: 4px 0;
+    padding: 6px 0;
 }
 
 .floedock-weather-day {
     spacing: 2px;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
     padding: 6px 4px;
+}
+
+.floedock-weather-day:hover {
+    background-color: rgba(255, 255, 255, 0.09);
 }
 
 .floedock-weather-day-label {
     font-size: 9.5pt;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.80);
 }
 
 .floedock-weather-day-range {
     font-size: 9.5pt;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.92);
 }
 
 .floedock-weather-day-desc {
     font-size: 8.5pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
 }
 
 /* ================= 日历模块 ================= */
 .floedock-calendar-nav {
     spacing: 10px;
-    padding: 0 6px;
+    padding: 2px 6px;
 }
 
 .floedock-calendar-month {
@@ -341,7 +361,7 @@
 
 .floedock-calendar-weekday {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.45);
+    color: rgba(255, 255, 255, 0.42);
 }
 
 .floedock-calendar-row {
@@ -350,21 +370,21 @@
 }
 
 .floedock-calendar-cell {
-    border-radius: 8px;
-    padding: 2px 0;
+    border-radius: 10px;
+    padding: 1px 0;
 }
 
 .floedock-calendar-cell:hover {
-    background-color: rgba(255, 255, 255, 0.10);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .floedock-calendar-cell:today {
-    background-color: rgba(127, 212, 255, 0.18);
-    border: 1px solid rgba(127, 212, 255, 0.55);
+    background-color: rgba(127, 212, 255, 0.16);
+    border: 1px solid rgba(127, 212, 255, 0.50);
 }
 
 .floedock-calendar-cell:selected {
-    background-color: rgba(127, 212, 255, 0.30);
+    background-color: rgba(127, 212, 255, 0.28);
 }
 
 .floedock-calendar-day {
@@ -375,7 +395,7 @@
 
 .floedock-calendar-lunar {
     font-size: 8pt;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.48);
 }
 
 .floedock-calendar-lunar:fest {
@@ -395,29 +415,29 @@
 }
 
 .floedock-calendar-mini-month {
-    background-color: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
     padding: 6px;
     spacing: 4px;
 }
 
 .floedock-calendar-mini-month:hover {
-    background-color: rgba(255, 255, 255, 0.12);
+    background-color: rgba(255, 255, 255, 0.10);
 }
 
 .floedock-calendar-mini-title {
     font-weight: 700;
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.90);
 }
 
 .floedock-calendar-mini-sub {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .floedock-calendar-detail {
-    background-color: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
     padding: 8px 12px;
     spacing: 3px;
 }
@@ -428,7 +448,7 @@
 }
 
 .floedock-calendar-detail-line2 {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.80);
 }
 
 .floedock-calendar-detail-fest {
@@ -438,16 +458,16 @@
 /* ================= 音乐模块 ================= */
 .floedock-music-player {
     font-size: 9.5pt;
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(255, 255, 255, 0.55);
 }
 
 .floedock-music-body {
-    border-radius: 12px;
+    border-radius: 14px;
 }
 
 .floedock-music-dim {
-    background-color: rgba(8, 12, 24, 0.62);
-    border-radius: 12px;
+    background-color: rgba(5, 8, 14, 0.55);
+    border-radius: 14px;
 }
 
 .floedock-music-content {
@@ -457,6 +477,7 @@
 
 .floedock-music-cover {
     border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
 .floedock-music-track {
@@ -467,22 +488,23 @@
 
 .floedock-music-artist {
     font-size: 10.5pt;
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.72);
 }
 
 .floedock-music-controls {
-    spacing: 14px;
+    spacing: 12px;
     padding: 6px;
 }
 
 .floedock-music-control {
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.22);
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
 .floedock-music-control:hover {
-    background-color: rgba(255, 255, 255, 0.26);
+    background-color: rgba(127, 212, 255, 0.22);
+    border-color: rgba(127, 212, 255, 0.40);
 }
 
 .floedock-music-control-icon {
@@ -495,7 +517,7 @@
 
 .floedock-music-time {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.65);
+    color: rgba(255, 255, 255, 0.60);
     min-width: 34px;
 }
 
@@ -509,7 +531,7 @@
 }
 
 .floedock-music-empty-icon {
-    color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.25);
 }
 
 /* ================= 通知展示态 ================= */
@@ -523,12 +545,12 @@
 }
 
 .floedock-notif-card-icon {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.90);
 }
 
 .floedock-notif-card-app {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
 }
 
 .floedock-notif-card-title {
@@ -537,12 +559,12 @@
 }
 
 .floedock-notif-card-body {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.78);
 }
 
 .floedock-notif-time {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
     margin: 6px 8px 0 0;
 }
 
@@ -559,7 +581,7 @@
     font-size: 12pt;
     font-weight: 500;
     color: #ffffff;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
 }
 
 /* ================= OSD ================= */
@@ -574,10 +596,6 @@
 .floedock-osd-label {
     font-size: 11pt;
     color: rgba(255, 255, 255, 0.95);
-}
-
-.floedock-osd-level {
-    padding-top: 4px;
 }
 
 /* ================= 锁屏 ================= */
@@ -597,7 +615,7 @@
     font-size: 88pt;
     font-weight: 200;
     color: #ffffff;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.6);
 }
 
 .floedock-lock-date {
@@ -607,7 +625,7 @@
 
 .floedock-lock-lunar {
     font-size: 12pt;
-    color: rgba(255, 255, 255, 0.7);
+    color: rgba(255, 255, 255, 0.68);
 }
 
 .floedock-lock-weather {
@@ -627,8 +645,9 @@
 
 .floedock-lock-notif {
     spacing: 10px;
-    background-color: rgba(255, 255, 255, 0.07);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
     padding: 8px 14px;
     min-width: 320px;
     max-width: 420px;
@@ -636,7 +655,7 @@
 
 .floedock-lock-notif-app {
     font-size: 9pt;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(255, 255, 255, 0.50);
 }
 
 .floedock-lock-notif-title {
@@ -661,44 +680,46 @@
 }
 
 .floedock-timer-chip {
-    background-color: rgba(255, 255, 255, 0.09);
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 4px 14px;
 }
 
 .floedock-timer-chip:hover {
-    background-color: rgba(255, 255, 255, 0.20);
+    background-color: rgba(127, 212, 255, 0.20);
 }
 
 .floedock-timer-chip-label {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.88);
     font-weight: 500;
+    font-size: 10.5pt;
 }
 
 .floedock-timer-entry {
-    background-color: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
     padding: 5px 12px;
     color: rgba(255, 255, 255, 0.95);
 }
 
 .floedock-timer-action {
-    background-color: rgba(127, 212, 255, 0.22);
-    border: 1px solid rgba(127, 212, 255, 0.45);
+    background-color: rgba(127, 212, 255, 0.18);
+    border: 1px solid rgba(127, 212, 255, 0.40);
     border-radius: 999px;
-    padding: 5px 18px;
+    padding: 4px 16px;
     margin: 4px;
 }
 
 .floedock-timer-action:hover {
-    background-color: rgba(127, 212, 255, 0.36);
+    background-color: rgba(127, 212, 255, 0.30);
 }
 
 .floedock-timer-action-label {
     color: #ffffff;
     font-weight: 600;
+    font-size: 10.5pt;
 }
 
 .floedock-timer-laps {
@@ -706,25 +727,26 @@
 }
 
 .floedock-timer-lap {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.80);
     font-size: 10.5pt;
 }
 
 /* ================= 翻译模块 ================= */
 .floedock-translate-dir {
-    background-color: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background-color: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
-    padding: 4px 12px;
+    padding: 3px 12px;
 }
 
 .floedock-translate-dir:hover {
-    background-color: rgba(255, 255, 255, 0.20);
+    background-color: rgba(255, 255, 255, 0.12);
 }
 
 .floedock-translate-dir-label {
-    color: rgba(255, 255, 255, 0.9);
+    color: rgba(255, 255, 255, 0.90);
     font-weight: 600;
+    font-size: 10.5pt;
 }
 
 .floedock-translate-inputrow {
@@ -732,32 +754,33 @@
 }
 
 .floedock-translate-input {
-    background-color: rgba(255, 255, 255, 0.10);
-    border: 1px solid rgba(255, 255, 255, 0.16);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
     border-radius: 999px;
-    padding: 7px 14px;
+    padding: 6px 14px;
     color: rgba(255, 255, 255, 0.95);
 }
 
 .floedock-translate-go {
-    background-color: rgba(127, 212, 255, 0.22);
-    border: 1px solid rgba(127, 212, 255, 0.45);
+    background-color: rgba(127, 212, 255, 0.18);
+    border: 1px solid rgba(127, 212, 255, 0.40);
     border-radius: 999px;
-    padding: 6px 16px;
+    padding: 5px 16px;
 }
 
 .floedock-translate-go:hover {
-    background-color: rgba(127, 212, 255, 0.36);
+    background-color: rgba(127, 212, 255, 0.30);
 }
 
 .floedock-translate-go-label {
     color: #ffffff;
     font-weight: 600;
+    font-size: 10.5pt;
 }
 
 .floedock-translate-result {
-    background-color: rgba(255, 255, 255, 0.06);
-    border-radius: 10px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
     padding: 10px 12px;
     spacing: 8px;
 }
