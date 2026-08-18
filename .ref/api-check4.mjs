@@ -1,0 +1,15 @@
+import Gio from 'gi://Gio';
+import GLib from 'gi://GLib';
+const probe = (label, fn) => { try { print(`${label}: ${fn() ? 'OK' : 'MISSING'}`); } catch (e) { print(`${label}: THROWS ${String(e).slice(0, 70)}`); } };
+probe('Gio.MemoryOutputStream.steal_as_bytes', () => typeof Gio.MemoryOutputStream.prototype.steal_as_bytes);
+probe('Gio.MemoryOutputStream.new_resizable', () => typeof Gio.MemoryOutputStream.new_resizable);
+probe('Gio.MemoryInputStream.new_from_bytes', () => typeof Gio.MemoryInputStream.new_from_bytes);
+probe('GLib.timeout_add_once', () => typeof GLib.timeout_add_once);
+probe('GLib.Source.set_name_by_id', () => typeof GLib.Source.set_name_by_id);
+probe('Gio.DesktopAppInfo.new', () => typeof Gio.DesktopAppInfo.new);
+probe('Gio.AppInfo.get_all', () => typeof Gio.AppInfo.get_all);
+probe('Gio.app_info_launch_default_for_uri', () => typeof Gio.app_info_launch_default_for_uri);
+probe('Gio.Subprocess flags', () => Gio.SubprocessFlags.STDOUT_PIPE !== undefined);
+probe('Gio.DBus.session.signal_subscribe', () => typeof Gio.DBus.session.signal_subscribe);
+probe('Gio.DBusProxy get_cached_property', () => typeof Gio.DBusProxy.prototype.get_cached_property);
+probe('Gio.DBusProxy init_async promise', () => 'then' in Gio.DBusProxy.prototype.init_async());

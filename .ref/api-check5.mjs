@@ -1,0 +1,17 @@
+import Clutter from 'gi://Clutter';
+import St from 'gi://St';
+import GLib from 'gi://GLib';
+const probe = (label, fn) => { try { const v = fn(); print(`${label}: ${v !== undefined && v !== null ? 'OK' : 'MISSING'}`); } catch (e) { print(`${label}: THROWS ${String(e).slice(0, 60)}`); } };
+probe('Clutter.KEY_Escape', () => Clutter.KEY_Escape);
+probe('Clutter.KEY_Return', () => Clutter.KEY_Return);
+probe('Clutter.KEY_KP_Enter', () => Clutter.KEY_KP_Enter);
+probe('Clutter.KEY_Left', () => Clutter.KEY_Left);
+probe('new St.ImageContent()', () => new St.ImageContent());
+probe('St.Clipboard.get_default', () => typeof St.Clipboard.get_default);
+probe('Clutter.EventType.BUTTON_RELEASE', () => Clutter.EventType.BUTTON_RELEASE);
+probe('Clutter.EventType.KEY_RELEASE', () => Clutter.EventType.KEY_RELEASE);
+probe('Clutter.ClickGesture ctor', () => new Clutter.ClickGesture());
+probe('GLib.SOURCE_REMOVE', () => GLib.SOURCE_REMOVE);
+probe('Clutter.BindCoordinate.ALL', () => Clutter.BindCoordinate.ALL);
+probe('Clutter.BindCoordinate.WIDTH', () => Clutter.BindCoordinate.WIDTH);
+probe('St.PolicyType.EXTERNAL', () => St.PolicyType.EXTERNAL);
