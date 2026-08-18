@@ -31,13 +31,14 @@ export default class FloeDockPrefs extends Extension {
         });
         const group = new Adw.PreferencesGroup({
             title: '浮冰玻璃',
-            description: 'St 无 backdrop-filter，模糊由多层半透明渐变近似实现',
+            description: '背景模糊为真模糊（Shell.BlurEffect），半透明渐变叠加其上',
         });
-        group.add(this._spinRow('blur-strength', '模糊强度', '0 = 清晰，100 = 重霜', 0, 100, 1));
+        group.add(this._spinRow('blur-strength', '模糊强度', '0 = 无模糊，100 = 重霜', 0, 100, 1));
         group.add(this._spinRow('glass-opacity', '透明度', '玻璃底色不透明度（%），越小越透', 0, 100, 1));
         group.add(this._spinRow('corner-radius', '圆角半径', '展开面板的圆角（px）；胶囊态始终为全圆角', 0, 48, 1));
         group.add(this._entryRow('accent-color', '主题色', 'CSS 颜色，如 #7fd4ff'));
-        group.add(this._spinRow('font-size', '字体大小', '胶囊时钟文字大小（px）', 8, 32, 1));
+        group.add(this._spinRow('font-size', '时钟字号', '胶囊时钟文字大小（px）', 8, 48, 1));
+        group.add(this._entryRow('font-family', '时钟字体', '如 DejaVu Sans Mono / Noto Sans CJK SC / Ubuntu Mono'));
         page.add(group);
         return page;
     }

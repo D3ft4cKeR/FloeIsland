@@ -27,7 +27,7 @@
       <default>30</default>
       <range min="0" max="100"/>
       <summary>Frosted glass blur strength</summary>
-      <description>Strength of the layered frosted-glass effect (0 = fully clear, 100 = heavy frost). St has no real backdrop-filter, the effect is approximated with layered translucent gradients.</description>
+      <description>Radius of the real background blur (Shell.BlurEffect, BACKGROUND mode) applied to the capsule and expanded surfaces. 0 = no blur.</description>
     </key>
     <key name="glass-opacity" type="i">
       <default>8</default>
@@ -47,16 +47,21 @@
       <description>Accent color used for the active tab indicator, focus ring and highlights. Any CSS color string.</description>
     </key>
     <key name="font-size" type="i">
-      <default>12</default>
-      <range min="8" max="32"/>
-      <summary>Panel font size</summary>
-      <description>Font size of the time/date text on the dock capsule.</description>
+      <default>15</default>
+      <range min="8" max="48"/>
+      <summary>Clock font size</summary>
+      <description>Font size (px) of the time/date text on the dock capsule.</description>
+    </key>
+    <key name="font-family" type="s">
+      <default>'DejaVu Sans Mono'</default>
+      <summary>Clock font family</summary>
+      <description>Font family used for the dock clock, e.g. "DejaVu Sans Mono", "Noto Sans CJK SC" or "Ubuntu Mono".</description>
     </key>
 
     <!-- ============ 行为 Behavior ============ -->
     <key name="hover-delay" type="i">
-      <default>300</default>
-      <range min="100" max="2000"/>
+      <default>1000</default>
+      <range min="100" max="3000"/>
       <summary>Hover delay (ms)</summary>
       <description>How long the pointer must hover the dock before the quick toolbar appears.</description>
     </key>
