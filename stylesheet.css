@@ -24,15 +24,20 @@
 
 /* ================= 悬停工具栏 ================= */
 .floedock-toolbar {
-    spacing: 6px;
-    padding: 0 8px;
+    spacing: 4px;
+    padding: 0 6px;
+    /* 工具栏整体深色胶囊背景（纯黑不透明，简约） */
+    background-color: rgba(9, 11, 16, 0.97);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 999px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .floedock-tool {
     border-radius: 999px;
-    background-color: rgba(16, 21, 30, 0.55);
-    border: 1px solid rgba(255, 255, 255, 0.10);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
 }
 
 .floedock-tool:hover {
