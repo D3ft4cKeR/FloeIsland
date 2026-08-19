@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="floedock">
+<schemalist gettext-domain="floeisland">
   <enum id="anim-style">
     <value nick="blur" value="0"/>
     <value nick="up" value="1"/>
@@ -20,7 +20,7 @@
     <value nick="apps-only" value="3"/>
   </enum>
 
-  <schema id="org.gnome.shell.extensions.floedock" path="/org/gnome/shell/extensions/floedock/">
+  <schema id="org.gnome.shell.extensions.floeisland" path="/org/gnome/shell/extensions/floeisland/">
 
     <!-- ============ 外观 Appearance ============ -->
     <key name="blur-strength" type="i">
@@ -68,7 +68,7 @@
     <key name="suppress-banners" type="b">
       <default>true</default>
       <summary>Suppress default notification banners</summary>
-      <description>While FloeDock is enabled, the default GNOME notification banners are suppressed so that all notifications are shown on the island instead.</description>
+      <description>While FloeIsland is enabled, the default GNOME notification banners are suppressed so that all notifications are shown on the island instead.</description>
     </key>
     <key name="notif-duration" type="i">
       <default>2</default>

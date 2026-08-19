@@ -1,4 +1,4 @@
-# FloeDock 浮冰灵动岛 — build / install helpers
+# FloeIsland | 浮灵岛 — build / install helpers
 #
 # 常用命令:
 #   make check        校验 schema + 全部 JS 语法
@@ -7,13 +7,13 @@
 #   make install      安装到用户扩展目录（不校验，最快）
 #   make reinstall    强制重装（删旧目录 → 校验 → 打包 → 安装 → 启用）
 #   make status       查看扩展状态
-#   make logs         抓取 floedock 相关日志
+#   make logs         抓取 floeisland 相关日志
 #   make uninstall    卸载
 #
 # 推荐直接用 ./install.sh 一键脚本（含状态检查与错误提示）。
 
-UUID = floedock@floedock.github.io
-SCHEMA = org.gnome.shell.extensions.floedock.gschema.xml
+UUID = floeisland@floeisland.github.io
+SCHEMA = org.gnome.shell.extensions.floeisland.gschema.xml
 EXT_DIR = $(HOME)/.local/share/gnome-shell/extensions/$(UUID)
 
 # 打包时包含的顶层内容（.ref/、tests/、Makefile、install.sh 等不入包）
@@ -68,9 +68,9 @@ reinstall: check
 status:
 	@gnome-extensions info $(UUID) | grep -E "版本|状态|已启用|路径" || echo "扩展未安装"
 
-## 抓取 floedock 相关日志
+## 抓取 floeisland 相关日志
 logs:
-	@journalctl --user -b -o cat | grep -B 2 -A 25 floedock | tail -80
+	@journalctl --user -b -o cat | grep -B 2 -A 25 floeisland | tail -80
 
 uninstall:
 	@gnome-extensions disable $(UUID) 2>/dev/null || true

@@ -1,10 +1,11 @@
-# FloeDock 浮冰灵动岛
+# FloeIsland | 浮灵岛
 
-> 一块浮在 GNOME 顶部面板时钟位置上的「浮冰雕」式灵动岛。
-> 悬停唤出快捷工具栏，点击展开全功能面板；通知、字幕、音量/亮度 OSD 全部「上岛」。
+> 一块浮在 GNOME 顶部面板时钟位置上的「浮灵岛」Dynamic Island 式扩展。
+> 悬停唤出快捷工具栏，点击展开全功能面板；通知、歌词字幕、音量/亮度 OSD 全部「上岛」。
+>
 > 目标环境：**Ubuntu 26.04 / GNOME 50 / Wayland / GJS (ESModules)**。
 
-![GNOME](https://img.shields.io/badge/GNOME-50-blue) ![Shell](https://img.shields.io/badge/shell--version-50-orange) ![License](https://img.shields.io/badge/License-GPL--3.0-green)
+![GNOME](https://img.shields.io/badge/GNOME-50-blue) ![Version](https://img.shields.io/badge/version-1.0.0-orange) ![Shell](https://img.shields.io/badge/shell--version-50-green) ![License](https://img.shields.io/badge/License-GPL--3.0-red)
 
 ---
 
@@ -12,140 +13,145 @@
 
 | 模块 | 说明 |
 | --- | --- |
-| 🧊 Dock 态 | 紧凑圆角半透明胶囊，恰好覆盖面板时间日期区域，宽度随文本自适应；多层玻璃拟态 |
-| 🛠 悬停工具栏 | 悬停 ≥300ms 唤出：截图 / 区域截图 / 录音 / 全屏录像 / 更多；图标依次弹性淡入 |
-| 🗂 全功能面板 | 全盘搜索栏 + 六个 Tab：消息 / 天气 / 日历(农历) / 音乐 / 计时 / 翻译，可左右滑动切换 |
-| 🔔 通知展示态 | 新通知上岛，卡片向后堆叠（偏移/旋转/递减），自动轮播，点击激活应用 |
+| 🧊 Dock 态 | 紧凑圆角半透明胶囊，恰好覆盖面板时钟区域，宽度随文本自适应，近黑无彩色强调 |
+| 🛠 悬停工具栏 | 悬停 ≥延迟唤出快捷工具栏：**截图 / 录音 / 录屏**，图标依次弹性淡入 |
+| 🗂 全功能面板 | 顶部全盘搜索栏 + 六个 Tab：**消息 / 天气 / 日历(农历) / 音乐 / 秒表 / 翻译**，左右滑动切换 |
+| 🔔 通知展示态 | 新通知以「灵动岛胶囊形变」上岛：岛体下移+变宽+变高成为通知卡，自动轮播，点击激活应用 |
 | 💬 字幕展示态 | MPRIS 播放器歌词（`xesam:lyrics`，支持 LRC 时间轴）逐行滚动展示 |
+| ⏱ 迷你小岛 | 秒表计时时，在时间岛左侧额外出现一个迷你胶囊实时显示 `MM:SS.cc` |
 | 📶 系统状态上岛 | 接管音量 / 亮度 / 静音 / 飞行模式 / 麦克风 / 录屏 / 截图确认 OSD |
-| 🔒 锁屏扩展 | 锁屏时岛屿扩展为全屏：大时钟卡片 + 农历日期 + 通知列表 + 天气简况 |
 
 ## 依赖
 
 ```bash
-sudo apt install gnome-shell-extension-prefs gnome-tweaks \
-    gir1.2-gtop-2.0 gir1.2-clutter-1.0 gir1.2-gtk-4.0 \
-    libgtk-4-dev libadwaita-1-dev gettext make zip
+sudo apt install gnome-shell-extensions-prefs make zip unzip glib-compile-schemas
 ```
 
 可选组件（按需）：
-- 录音：`pipewire-utils`（`pw-record`，默认）或 `parec`（pulseaudio-utils）
+- 录音：`pipewire-utils`（`pw-record`，默认）或 `parec`
 - 搜索：`tracker3`（默认）或 `plocate`（`locate`）
-- 天气：wttr.in 无需任何 Key；OpenWeatherMap 需在设置中填 API Key
+- 天气：wttr.in 无需 Key；OpenWeatherMap 需在设置填 API Key
 
-## 安装
+## 安装（全新系统）
 
-### 方式一：一键脚本（推荐）
+**一键脚本（推荐）：**
 
 ```bash
 chmod +x install.sh
 ./install.sh            # 校验 → 打包 → 卸载旧版 → 安装 → 启用 → 状态检查
-./install.sh --uninstall   # 卸载
 ```
 
-脚本会强制清空旧目录再安装，避免"改了代码但版本号不变"之类的残留问题；安装后自动检查扩展状态，ERROR 时直接给出抓日志命令。
+一个脚本就能完成校验、打包、安装、启用和状态检查，出错时直接给出抓日志命令。安装后 **注销重新登录**（Wayland / GNOME 50 必需）即可生效。
 
-### 方式二：手动
+**手动安装：**
 
 ```bash
 make zip                                   # 打包（同时校验 schema 与语法）
-gnome-extensions install floedock@floedock.github.io.zip --force
-gnome-extensions disable floedock@floedock.github.io   # 强制重载
-gnome-extensions enable floedock@floedock.github.io
-gnome-extensions info floedock@floedock.github.io      # 查看 版本/状态
+gnome-extensions install floeisland@floeisland.github.io.zip --force
+gnome-extensions enable floeisland@floeisland.github.io
 ```
 
-或直接安装到用户目录：`make install`；强制重装：`make reinstall`。
+## 卸载（无后遗症）
 
-> ⚠️ GNOME 50 / Wayland：修改后需要**注销重新登录**才会加载新代码；首次安装后同样需要重登录。
-> 排错：`make status` 看状态，`make logs` 抓日志。
+```bash
+./uninstall.sh          # 或 ./install.sh --uninstall
+```
 
-### 常见问题
-
-| 症状 | 处理 |
-| --- | --- |
-| `状态: ERROR` | `make logs`，把 `JS ERROR` 和 Stack trace 发给我 |
-| `enable` 提示"扩展不存在" | 刚装完还没重登录，Shell 尚未扫描到新目录 |
-| 版本号不更新 | 用 `./install.sh`（会强制清空旧目录） |
-| 修改代码后无变化 | Wayland 下必须注销重登录，`enable/disable` 只对已加载的扩展生效 |
-
-卸载：`./install.sh --uninstall` 或 `make uninstall`。
+卸载脚本会：禁用扩展 → 删除扩展目录 → **清除本扩展的 GSettings 设置** → 删除临时 zip。扩展禁用后**自动恢复默认的系统通知横幅与面板日期时钟**，不会留下任何残留。
 
 ## 使用
 
-- **左键点击**胶囊 → 展开全功能面板（再次点击外部 / `Esc` 关闭）
-- **悬停**胶囊 → 唤出快捷工具栏（延迟可在设置中调整）
-- **通知到达** → 岛屿自动切换为通知展示态，点击卡片打开对应应用
-- **调整音量 / 亮度** → OSD 显示在岛屿上（可在设置中关闭某类接管）
-- **锁屏** → 岛屿扩展为全屏时钟
+- **左键点击**胶囊 → 展开全功能面板（再点外部 / `Esc` 关闭）
+- **悬停**胶囊 → 唤出快捷工具栏
+- **通知到达** → 岛自动切换为通知展示态（胶囊自身形变），点击打开应用
+- **调节音量/亮度** → OSD 显示在岛上
+- **秒表计时** → 时间岛左侧出现迷你小岛实时显示计时
 
 ### 工具栏按钮
 
 | 按钮 | 行为 |
 | --- | --- |
-| 📷 截图 | 立即截取全屏到 `~/Pictures` |
-| 🖼 区域截图 | 打开 GNOME 交互式截图 UI |
-| 🎙 录音 | 切换录音（`pw-record`），再次点击停止，文件在 `~/Videos` |
-| 🎬 全屏录像 | 打开交互式录屏 UI |
-| ⋯ 更多 | 直接打开全功能面板 |
+| 📷 截图 | 立即截图到 `~/Pictures` |
+| 🎙 录音 | 切换录音（`pw-record`），再点停止，文件在 `~/Videos` |
+| 🎬 录屏 | 打开交互式录屏 UI |
 
-### 设置（GNOME Extensions 偏好设置）
+### 全功能面板 Tab
 
-分类：**外观**（模糊强度 / 透明度 / 圆角 / 主题色 / 字号）、**行为**（悬停延迟、通知时长 / 堆叠深度 / 切换动画、各 OSD 接管开关）、**模块**（各 Tab 开关、天气数据源 / API Key / 城市、搜索后端、首选播放器）、**高级**（调试日志、重置默认值）。
+| Tab | 说明 |
+| --- | --- |
+| 消息 | 最近通知列表，可滚动、单条删除、一键清空 |
+| 天气 | 当前天气 + 逐小时/逐日预报（wttr.in / OpenWeatherMap） |
+| 日历 | 农历 + 生肖 + 节日/节气，卡片布局 |
+| 音乐 | MPRIS 播放器控制：封面 + 歌名/歌手 + 上一曲/播放/下一曲 |
+| 秒表 | 开始/暂停、计次（最多 3 条）、重置；计时时左侧显示迷你小岛 |
+| 翻译 | 在线翻译（MyMemory API 等） |
+
+搜索栏：输入实时搜索**应用 + 文件 + 「浏览器(必应)搜索」**，结果卡单击即可打开/启动。
+
+### 设置（GNOME Extensions 偏好）
+
+分类：**外观**（模糊强度 / 透明度 / 圆角 / 主题强调色 / 字号）、**行为**（悬停延迟、通知时长 / 堆叠深度 / 切换动画、各 OSD 接管开关）、**模块**（各 Tab 开关、天气数据源 / API Key / 城市、搜索后端、首选播放器）、**高级**（调试日志、重置默认值）。
 
 ## 项目结构
 
 ```
-FloeDock/
-├── extension.js            # 扩展入口（注册所有状态表面与驱动器）
-├── metadata.json           # uuid / shell-version / settings-schema
-├── prefs.js                # Adw 设置界面
-├── stylesheet.css          # 玻璃拟态样式
-├── schemas/                # GSettings schema（含全部设置项）
+FloeIsland/
+├── install.sh            # 一键安装 / 卸载脚本
+├── uninstall.sh          # 独立卸载脚本（无后遗症）
+├── extension.js          # 扩展入口（注册所有状态表面与驱动器）
+├── metadata.json         # uuid / shell-version / settings-schema / 版本
+├── prefs.js              # Adw 设置界面
+├── stylesheet.css        # 玻璃拟态样式
+├── schemas/              # GSettings schema（含全部设置项）
 ├── lib/
-│   ├── dock.js             # 岛屿核心：胶囊 + 浮层 + 状态机 + 主题
-│   ├── hoverToolbar.js     # 模块二：悬停工具栏
-│   ├── fullPanel.js        # 模块三：搜索 / Tab / 分页面板
-│   ├── search.js           # 搜索后端（tracker/locate/command/apps）
-│   ├── messagesModule.js   # 消息 Tab
-│   ├── weatherModule.js    # 天气 Tab（wttr.in / OpenWeatherMap）
-│   ├── calendarModule.js   # 日历 Tab（农历 / 节气 / 节日）
-│   ├── mpris.js            # MPRIS 客户端与播放器发现
-│   ├── musicModule.js      # 音乐 Tab
-│   ├── notifState.js       # 模块四：通知展示态
-│   ├── subtitleState.js    # 模块五：字幕展示态
-│   ├── osdState.js         # 模块六：OSD 接管
-│   ├── lockOverlay.js      # 模块七：锁屏扩展
-│   ├── timerModule.js      # 倒计时 / 秒表
-│   ├── translateModule.js  # 翻译（MyMemory API）
-│   ├── lunar.js            # 农历 / 节气 / 节日（纯 JS）
-│   ├── lrc.js              # LRC 歌词解析（纯 JS）
-│   ├── actions.js          # 截图 / 录屏 / 录音 / 启动应用
-│   ├── constants.js        # 常量
-│   └── utils.js            # 工具函数
-├── po/                     # 翻译骨架（en/zh_CN）
-├── tests/                  # 语法检查与农历/歌词单元测试
-├── Makefile                # make check / install / zip / uninstall
-└── LICENSE                 # GPL-3.0
+│   ├── dock.js           # 岛屿核心：胶囊 + 浮层 + 状态机 + 形变动画 + 主题
+│   ├── hoverToolbar.js   # 悬停工具栏（截图 / 录音 / 录屏）
+│   ├── fullPanel.js      # 搜索 / Tab / 分页面板
+│   ├── search.js         # 搜索后端（tracker/locate/command/apps）+ 普通应用启动
+│   ├── messagesModule.js # 消息 Tab
+│   ├── weatherModule.js  # 天气 Tab
+│   ├── calendarModule.js # 日历 Tab（农历 / 节气 / 节日）
+│   ├── mpris.js          # MPRIS 客户端与播放器发现（对齐 gnome-shell 官方实现）
+│   ├── musicModule.js    # 音乐 Tab
+│   ├── stopwatchModule.js# 秒表 Tab（含迷你小岛驱动）
+│   ├── notifState.js     # 通知展示态（胶囊形变动画 + 系统通知接入）
+│   ├── subtitleState.js  # 字幕展示态
+│   ├── osdState.js       # OSD 接管
+│   ├── translateModule.js# 翻译 Tab
+│   ├── lunar.js          # 农历 / 节气 / 节日（纯 JS）
+│   ├── lrc.js            # LRC 歌词解析（纯 JS）
+│   ├── actions.js        # 截图 / 录屏 / 录音 / 打开文件
+│   ├── constants.js      # 常量（UUID / schema / 尺寸）
+│   └── utils.js          # 工具函数
+├── po/                   # 翻译骨架
+├── tests/                # 语法检查与农历/歌词单元测试
+├── Makefile              # make check / test / zip / install / uninstall
+└── LICENSE               # GPL-3.0
 ```
 
-## 设计说明与已知限制
+## 设计说明
 
-- **玻璃拟态**：St（libst）不支持 CSS `backdrop-filter`，浮冰玻璃效果由「多层半透明渐变 + 高光 + 外阴影」近似；真实背景模糊需要采样舞台内容，代价过高，故未实现。
-- **布局稳定**：岛屿按钮的 preferred 宽度恒等于胶囊宽度（时钟文本 + 内边距），所有展开态（工具栏 / 通知 / 面板 / OSD）都是浮层的溢出子 actor，不会推动面板上的其他元素。
-- **亮度 OSD**：GNOME 50 的亮度由 Shell 自身经 `Main.osdWindowManager` 显示，可被完整接管；飞行模式经 `org.gnome.SettingsDaemon.Rfkill` 监听。
-- **字幕**：依赖播放器在 MPRIS 元数据中提供 `xesam:lyrics`（或 `xesam:asText`），多数播放器不提供；LRC 文件自动跟随不在范围内（见 `lib/lrc.js` 可复用解析器）。
-- **录音**：`pw-record` 需要 `pipewire-utils`；`parec` 为回退方案（raw 数据，无容器格式）。
+- **玻璃拟态**：浮冰玻璃效果由「半透明暗底 + 细边框 + 大圆角」近似（近黑、无彩色强调、无阴影），与系统通知一致。
+- **动画**：通知展示态与里界面均为**胶囊自身形变**（下移/拉宽/拉高/圆角过渡）的插值动画，先横后纵、有始有终，不闪跳不突然消失；面板内容预布局，动画只动胶囊几何以减少重绘。
+- **通知接管**：通过 `MessageTray` 的官方 `bannerBlocked` 屏蔽系统横幅，通知仍进通知中心/消息 Tab；任意状态到达的通知回到 Dock 后都会上岛展示。
+- **布局稳定**：岛屿 preferred 宽度恒等于胶囊宽度，所有展开态均为浮层子 actor，不推挤面板其他元素。
 - **多显示器**：岛屿固定在主显示器面板时钟位置；OSD 接管仅作用于主显示器。
-- **性能**：所有动画均为 Clutter 属性动画（GPU 合成），无 JS 逐帧绘制；D-Bus 信号与超时均在销毁时清理。
+- **性能 / 稳定性**：所有定时器与 D-Bus 订阅在销毁时清理；禁用/卸载后恢复系统默认行为。
 
 ## 调试
 
 ```bash
-journalctl -f -o cat /usr/bin/gnome-shell | grep floedock
+make logs                            # journalctl 抓 floeisland 日志
+journalctl -f -o cat /usr/bin/gnome-shell | grep floeisland
 ```
 
-在设置 → 高级中开启「调试模式」后输出详细日志。
+在设置 → 高级开启「调试模式」后日志更详细。
+
+## 制作人
+
+- **D3ft4cKeR** — 项目构想与持续开发
+- **DeepSeek v4 Flash with DeepSeek Harness** — 架构实现、动画/交互调优、代码生成
+- **Xiaomi Mimo V2.5 with MimoCode** — 协同开发与迭代
 
 ## 许可证
 

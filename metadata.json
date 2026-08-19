@@ -1,10 +1,10 @@
 {
-  "uuid": "floedock@floedock.github.io",
-  "name": "FloeDock 浮冰灵动岛",
-  "description": "Floating ice-glass dynamic island for the top panel: hover to reveal a quick toolbar, click to open a full panel (search / messages / weather / lunar calendar / music / timer / translate / color picker), and take over notifications, subtitles and system OSDs.",
+  "uuid": "floeisland@floeisland.github.io",
+  "name": "FloeIsland | 浮灵岛",
+  "description": "A Dynamic-Island style floating glass island for the top panel: hover for a quick toolbar, click to open a full panel (search / messages / weather / lunar calendar / music / stopwatch / translate), and take over notifications and system on-screen displays.",
   "shell-version": ["50"],
-  "version-name": "0.5.0",
-  "url": "https://github.com/d3ft4cker/FloeDock",
-  "settings-schema": "org.gnome.shell.extensions.floedock",
-  "gettext-domain": "floedock"
+  "version-name": "1.0.0",
+  "url": "https://github.com/d3ft4cker/FloeIsland",
+  "settings-schema": "org.gnome.shell.extensions.floeisland",
+  "gettext-domain": "floeisland"
 }

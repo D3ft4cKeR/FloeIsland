@@ -48,7 +48,7 @@ export default class FloeDockPrefs {
             icon_name: 'preferences-desktop-theme-symbolic',
         });
         const group = new Adw.PreferencesGroup({
-            title: '浮冰玻璃',
+            title: '浮灵玻璃',
             description: '背景模糊为真模糊（Shell.BlurEffect），半透明暗底渐变叠加其上',
         });
         group.add(this._spinRow('blur-strength', '模糊强度', '0 = 无模糊，100 = 重霜', 0, 100, 1));
@@ -139,7 +139,7 @@ export default class FloeDockPrefs {
         });
         const group = new Adw.PreferencesGroup({title: '调试'});
         group.add(this._switchRow('debug', '调试模式',
-            '输出详细日志：journalctl --user -b -o cat | grep floedock'));
+            '输出详细日志：journalctl --user -b -o cat | grep floeisland'));
 
         const resetGroup = new Adw.PreferencesGroup({title: '恢复'});
         const resetRow = new Adw.ActionRow({
@@ -160,8 +160,8 @@ export default class FloeDockPrefs {
 
         const about = new Adw.PreferencesGroup({title: '关于'});
         const aboutRow = new Adw.ActionRow({
-            title: 'FloeDock 浮冰灵动岛',
-            subtitle: 'GNOME 50 顶部面板动态岛 · 许可证 GPL-3.0',
+            title: 'FloeIsland | 浮灵岛',
+            subtitle: 'v1.0.0 · GNOME 50 顶部面板动态岛 · 许可证 GPL-3.0',
         });
         about.add(aboutRow);
         page.add(about);

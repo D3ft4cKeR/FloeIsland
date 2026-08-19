@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# FloeDock 浮冰灵动岛 — 一键安装 / 更新 / 卸载脚本
+# FloeIsland | 浮灵岛 — 一键安装 / 更新 / 卸载脚本
 #
 # 用法:
 #   ./install.sh         安装或更新（校验→打包→卸载旧版→安装→启用→检查）
@@ -11,7 +11,7 @@
 # ============================================================================
 set -euo pipefail
 
-UUID="floedock@floedock.github.io"
+UUID="floeisland@floeisland.github.io"
 BASE_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/gnome-shell/extensions"
 EXT_DIR="$BASE_DIR/$UUID"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -28,8 +28,10 @@ uninstall() {
     info "卸载 $UUID"
     gnome-extensions disable "$UUID" 2>/dev/null || true
     rm -rf "$EXT_DIR"
-    ok "已删除 $EXT_DIR"
-    echo "如需彻底移除设置，可执行: dconf reset -f /org/gnome/shell/extensions/floedock/"
+    if command -v dconf >/dev/null 2>&1; then
+        dconf reset -f /org/gnome/shell/extensions/floeisland/ 2>/dev/null || true
+    fi
+    ok "已删除 $EXT_DIR 并清除本扩展设置（如存在）"
 }
 
 # ---------------------------------------------------------------------------
@@ -75,7 +77,7 @@ STATUS="$(gnome-extensions info "$UUID" 2>/dev/null | grep '状态' || true)"
 echo "  $STATUS"
 if echo "$STATUS" | grep -q 'ERROR'; then
     warn "扩展加载报错，抓取日志："
-    echo "  journalctl --user -b -o cat | grep -B 2 -A 25 floedock | tail -60"
+    echo "  journalctl --user -b -o cat | grep -B 2 -A 25 floeisland | tail -60"
     exit 1
 fi
 
@@ -86,7 +88,7 @@ if echo "$STATUS" | grep -q '已启用: 是'; then
     echo "  · X11   → 按 Alt+F2 输入 r 回车，或注销重登录"
     echo "  · Wayland → 注销重新登录"
     echo "  · 验证  → gnome-extensions info $UUID"
-    echo "  · 日志  → journalctl --user -b -o cat | grep -B 2 -A 25 floedock | tail -60"
+    echo "  · 日志  → journalctl --user -b -o cat | grep -B 2 -A 25 floeisland | tail -60"
 else
     warn "扩展已安装但未处于启用状态，请注销重新登录后再执行:"
     echo "  gnome-extensions enable $UUID"

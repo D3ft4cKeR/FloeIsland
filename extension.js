@@ -1,9 +1,9 @@
-// FloeDock 浮冰灵动岛 — GNOME Shell 扩展入口（ESModules）。
+// FloeIsland | 浮灵岛 — GNOME Shell 扩展入口（ESModules）。
 
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 
-import {FloeDockButton} from './lib/dock.js';
+import {FloeIslandButton} from './lib/dock.js';
 import {createHoverToolbar} from './lib/hoverToolbar.js';
 import {installOsdTakeover} from './lib/osdState.js';
 import {createFullPanel} from './lib/fullPanel.js';
@@ -11,11 +11,11 @@ import {createNotifSurface, NotificationWatcher} from './lib/notifState.js';
 import {createSubtitleSurface, SubtitleDriver} from './lib/subtitleState.js';
 import {ROLE, State, SETTINGS_SCHEMA} from './lib/constants.js';
 
-export default class FloeDockExtension extends Extension {
+export default class FloeIslandExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
 
-        this._dock = new FloeDockButton(this);
+        this._dock = new FloeIslandButton(this);
         this._dock.registerSurface(State.TOOLBAR, createHoverToolbar);
         this._dock.registerSurface(State.PANEL, createFullPanel);
         this._dock.registerSurface(State.NOTIFICATION, createNotifSurface);

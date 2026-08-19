@@ -11,6 +11,9 @@ build/
 # local reference sources (session research only, never commit)
 .ref/
 
+# agent tooling artifacts (never commit)
+.dsh-vision-router/
+
 # compiled schemas / translation artifacts
 schemas/gschemas.compiled
 po/*.mo

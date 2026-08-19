@@ -80,6 +80,11 @@
     border-color: rgba(255, 120, 120, 0.70);
 }
 
+.floedock-tool:dnd-on {
+    background-color: rgba(210, 170, 60, 0.45);
+    border-color: rgba(255, 200, 100, 0.75);
+}
+
 .floedock-tool-icon {
     color: #ffffff;
     opacity: 0.95;
@@ -333,6 +338,18 @@
 .floedock-notif-time {
     font-size: 9pt;
     color: rgba(255, 255, 255, 0.40);
+}
+
+/* 通知卡关闭叉（右上角） */
+.floedock-notif-close {
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+.floedock-notif-close:hover {
+    background-color: rgba(255, 255, 255, 0.22);
+}
+.floedock-notif-close-icon {
+    color: rgba(255, 255, 255, 0.80);
 }
 
 /* ================= 天气模块 ================= */
