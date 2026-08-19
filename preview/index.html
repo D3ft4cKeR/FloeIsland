@@ -57,7 +57,7 @@ body {
     z-index: 20;
 }
 /* 胶囊 */
-#island { position: relative; }
+#island { position: relative; display: flex; align-items: center; gap: 8px; }
 #capsule {
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; overflow: hidden;
@@ -69,6 +69,15 @@ body {
     transition: transform 0.2s;
 }
 #capsule:hover { transform: scale(1.02); }
+/* 迷你小岛：秒表计时中显示在时间岛左侧 */
+#mini-island {
+    display: none; align-items: center;
+    padding: 0 12px; height: 34px; border-radius: 999px;
+    background: var(--surf); border: 1px solid var(--border-hi);
+    font-family: "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
+    font-size: 13px; letter-spacing: 0.5px; color: var(--text-hi);
+}
+#mini-island.on { display: flex; }
 #clock {
     font-family: "DejaVu Sans Mono", "Noto Sans Mono CJK SC", monospace;
     font-size: 15px; font-weight: 300; letter-spacing: 0.5px;
@@ -312,6 +321,7 @@ body {
 
 <div id="panel">
   <div id="island">
+    <div id="mini-island"><span id="mini-clock">00:00.00</span></div>
     <div id="capsule">
       <span id="clock">14:32&ensp;8月18日 周二</span>
       <div id="notif-banner">
@@ -337,8 +347,7 @@ body {
             <div class="tab" data-m="weather"><span class="ico">🌤️</span>天气</div>
             <div class="tab" data-m="cal"><span class="ico">📅</span>日历</div>
             <div class="tab" data-m="music"><span class="ico">🎵</span>音乐</div>
-            <div class="tab" data-m="timer"><span class="ico">⏳</span>倒计时</div>
-            <div class="tab" data-m="stopwatch"><span class="ico">⏱️</span>秒表</div>
+            <div class="tab" data-m="stopwatch"><span class="ico">⏰</span>秒表</div>
             <div class="tab" data-m="translate"><span class="ico">🌐</span>翻译</div>
             <div id="indicator"></div>
           </div>
@@ -407,31 +416,15 @@ body {
                 </div>
               </div>
             </div>
-            <div class="module" id="m-timer">
-              <div class="timer-h">
-                <div class="timer-left">
-                  <div class="timer-display" style="font-size:40px">12:00</div>
-                  <div class="timer-sub">准备就绪</div>
-                  <div class="timer-set"><input placeholder="分" style="width:44px"><input placeholder="秒" style="width:44px"></div>
-                  <div class="timer-chips">
-                    <button>1分</button><button>3分</button><button>5分</button>
-                    <button>10分</button><button>25分</button>
-                  </div>
-                </div>
-                <div class="timer-ctls-col">
-                  <button>开始</button><button>重置</button>
-                </div>
-              </div>
-            </div>
             <div class="module" id="m-stopwatch">
               <div class="timer-h">
                 <div class="timer-left">
-                  <div class="timer-display" style="font-size:40px">00:00.0</div>
-                  <div class="timer-sub">准备就绪</div>
+                  <div class="timer-display" style="font-size:38px">00:00.00</div>
+                  <div class="timer-sub">点「开始」计时</div>
                   <div class="timer-laps" id="sw-laps"></div>
                 </div>
                 <div class="timer-ctls-col">
-                  <button>开始</button><button>计次</button><button>重置</button>
+                  <button id="sw-start">开始</button><button>计次</button><button>重置</button>
                 </div>
               </div>
             </div>
@@ -565,8 +558,11 @@ toolbar.querySelectorAll('.tool').forEach(t => {
   t.addEventListener('click', e => e.stopPropagation());
 });
 
-/* 工具栏末尾三点 → 面板 */
-toolbar.children[4].addEventListener('click', () => setState('panel'));
+/* 点击岛体胶囊 → 打开里界面（同扩展：单击进入面板） */
+capsule.addEventListener('click', () => {
+  if (state === 'dock' || state === 'toolbar')
+    setState('panel');
+});
 
 /* ============ Tab 切换 ============ */
 const tabs = [...document.querySelectorAll('.tab')];
@@ -588,6 +584,32 @@ tabs.forEach((tab, i) => {
   });
 });
 window.addEventListener('load', () => setTimeout(() => updateIndicator(0), 60));
+
+/* ============ 秒表演示：计时时在时间岛左侧显示迷你小岛 ============ */
+const swDisplay = document.querySelector('#m-stopwatch .timer-display');
+const swLaps = document.getElementById('sw-laps');
+const swStartBtn = document.getElementById('sw-start');
+const miniClock = document.getElementById('mini-clock');
+const miniIsland = document.getElementById('mini-island');
+let swMs = 0, swRunning = false, swTimer = null;
+function swRender() {
+  const m = String(Math.floor(swMs / 60000)).padStart(2, '0');
+  const s = String(Math.floor((swMs % 60000) / 1000)).padStart(2, '0');
+  const c = String(Math.floor((swMs % 1000) / 10)).padStart(2, '0');
+  const txt = `${m}:${s}.${c}`;
+  swDisplay.textContent = txt;
+  miniClock.textContent = txt;
+  miniIsland.classList.toggle('on', swMs > 0);
+}
+swStartBtn.addEventListener('click', () => {
+  if (swRunning) {
+    swRunning = false; clearInterval(swTimer); swTimer = null; swStartBtn.textContent = '继续';
+  } else {
+    swRunning = true; swStartBtn.textContent = '暂停';
+    swTimer = setInterval(() => { swMs += 100; swRender(); }, 100);
+  }
+});
+swRender();
 
 /* ============ 日历（2026年8月真实农历数据） ============ */
 const LUNAR = {"1":{"day":"十九","fest":"建军节"},"2":{"day":"二十","fest":""},"3":{"day":"廿一","fest":""},"4":{"day":"廿二","fest":""},"5":{"day":"廿三","fest":""},"6":{"day":"廿四","fest":""},"7":{"day":"廿五","fest":"立秋"},"8":{"day":"廿六","fest":""},"9":{"day":"廿七","fest":""},"10":{"day":"廿八","fest":""},"11":{"day":"廿九","fest":""},"12":{"day":"三十","fest":""},"13":{"day":"初一","fest":""},"14":{"day":"初二","fest":""},"15":{"day":"初三","fest":""},"16":{"day":"初四","fest":""},"17":{"day":"初五","fest":""},"18":{"day":"初六","fest":""},"19":{"day":"初七","fest":"七夕"},"20":{"day":"初八","fest":""},"21":{"day":"初九","fest":""},"22":{"day":"初十","fest":""},"23":{"day":"十一","fest":"处暑"},"24":{"day":"十二","fest":""},"25":{"day":"十三","fest":""},"26":{"day":"十四","fest":""},"27":{"day":"十五","fest":"中元节"},"28":{"day":"十六","fest":""},"29":{"day":"十七","fest":""},"30":{"day":"十八","fest":""},"31":{"day":"十九","fest":""}};
