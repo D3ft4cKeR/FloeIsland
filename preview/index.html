@@ -490,29 +490,29 @@ function setState(next) {
   }
 
   if (next === 'panel') {
-    // 里界面：胶囊分阶段形变（对齐扩展：时间淡化 → 横向拉长露搜索 → 向下拉出露模块 → tab淡入）
+    // 里界面：严格时序胶囊形变（对齐扩展）：
+    // 时钟淡化 + 横向拉长 同拍 → 纵向拉开 → 内容淡入
     floatEl.classList.add('open');
     toolbar.style.display = 'none';
     panelUI.style.display = 'block';
     panelUI.style.opacity = 0;
     floatEl.style.opacity = 1;
-    floatEl.style.transition = 'transform 0.18s ease';
-    clockEl.style.transition = 'opacity 0.18s ease';
-    clockEl.style.opacity = '0'; // 1. 时间淡化
-    setFloat(640, 244, 0.15, 0.1);
-    hoverTimer = setTimeout(() => { // 2. 横向拉长到全宽（露搜索）
-      floatEl.style.transition = 'transform 0.34s cubic-bezier(0.3,0.8,0.25,1)';
+    floatEl.style.transition = 'transform 0.36s cubic-bezier(0.25,0.7,0.25,1), opacity 0.36s ease';
+    clockEl.style.transition = 'opacity 0.36s ease';
+    clockEl.style.opacity = '0'; // 1. 时钟淡化（与横拉同拍）
+    setFloat(640, 244, 0.15, 0.25);
+    requestAnimationFrame(() => { // 横拉（同拍开始）
       floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(0.25)';
-      hoverTimer = setTimeout(() => { // 3. 向下拉出到全高（露模块）
-        floatEl.style.transition = 'transform 0.4s cubic-bezier(0.3,0.8,0.25,1)';
-        floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(1)';
-        hoverTimer = setTimeout(() => { // 4. tab/模块淡入
-          panelUI.style.transition = 'opacity 0.28s ease';
-          panelUI.style.opacity = 1;
-          updateIndicator(0);
-        }, 400);
-      }, 340);
-    }, 180);
+    });
+    hoverTimer = setTimeout(() => { // 2. 纵向拉开到全高
+      floatEl.style.transition = 'transform 0.42s cubic-bezier(0.3,0.8,0.25,1)';
+      floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(1)';
+      hoverTimer = setTimeout(() => { // 3. 内容淡入
+        panelUI.style.transition = 'opacity 0.28s ease';
+        panelUI.style.opacity = 1;
+        updateIndicator(0);
+      }, 420);
+    }, 360);
   }
 }
 
