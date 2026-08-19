@@ -105,7 +105,7 @@ export default class FloeDockPrefs {
         modules.add(this._switchRow('module-weather', '天气', 'wttr.in / OpenWeatherMap'));
         modules.add(this._switchRow('module-calendar', '日历', '农历 + 节气 + 节日'));
         modules.add(this._switchRow('module-music', '音乐', 'MPRIS 播放器控制'));
-        modules.add(this._switchRow('module-timer', '计时', '倒计时 / 秒表'));
+        modules.add(this._switchRow('module-timer', '秒表', '秒表计时（计时时左侧显示迷你小岛）'));
         modules.add(this._switchRow('module-translate', '翻译', '快速翻译输入'));
         page.add(modules);
 

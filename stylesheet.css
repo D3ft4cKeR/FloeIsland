@@ -22,6 +22,23 @@
     text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
 }
 
+/* 迷你小岛（秒表计时中显示在时间岛左侧） */
+.floedock-mini-island {
+    background-color: rgba(12, 13, 16, 0.98);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 999px;
+    min-height: 30px;
+    padding: 0 12px;
+}
+
+.floedock-mini-label {
+    font-family: "Ubuntu Mono", "DejaVu Sans Mono", monospace;
+    font-size: 12pt;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.98);
+}
+
 /* 胶囊内 OSD 信息（音量/亮度/截图等，灵动岛式） */
 .floedock-osd-capsule{
 }
