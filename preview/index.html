@@ -284,25 +284,6 @@ body {
 #notif-banner .app { font-size: 10px; color: var(--text-low); display: flex; justify-content: space-between; }
 #notif-banner .tt { font-weight: 600; font-size: 13px; margin-top: 2px; }
 #notif-banner .bb { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
-
-/* 锁屏 */
-#lockscreen {
-    position: fixed; inset: 0; z-index: 100; display: none;
-    background: linear-gradient(180deg, rgba(10,14,22,0.92), rgba(4,6,10,0.96));
-    align-items: center; justify-content: center; flex-direction: column; gap: 18px;
-}
-#lockscreen.show { display: flex; }
-#lockscreen .big { font-size: 88px; font-weight: 200; text-shadow: 0 2px 12px rgba(0,0,0,0.6); }
-#lockscreen .sub { font-size: 18px; color: var(--text-hi); }
-#lockscreen .lunar { font-size: 13px; color: var(--text-mid); }
-#lockscreen .lc-card { text-align: center; padding: 30px 60px; border-radius: 28px;
-    background: linear-gradient(180deg, rgba(26,33,46,0.7), rgba(9,12,19,0.8));
-    border: 1px solid var(--border); backdrop-filter: blur(30px);
-    box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-}
-#lockscreen .lock-notif { display: flex; gap: 10px; background: rgba(255,255,255,0.06); border-radius: 12px; padding: 8px 14px; width: 380px; }
-#lockscreen .lock-notif .app { font-size: 10px; color: var(--text-low); }
-#lockscreen .lock-notif .tt { font-size: 13px; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -442,20 +423,8 @@ body {
 
 
 
-<div id="lockscreen">
-  <div class="lc-card">
-    <div class="big">14:32</div>
-    <div class="sub">8月18日 星期二</div>
-    <div class="lunar">丙午马年 · 七月初六 · 七夕将至</div>
-  </div>
-  <div class="lock-notif"><div style="font-size:22px">💬</div>
-    <div><div class="app">Telegram</div><div class="tt">张三：晚上一起吃饭？</div></div></div>
-  <div style="color:var(--text-low);font-size:11px">锁屏扩展预览 —— 按 Esc 返回</div>
-</div>
-
 <div id="demos">
   <button onclick="showBanner()">🔔 通知上岛</button>
-  <button onclick="toggleLock()">🔒 锁屏扩展</button>
   <button onclick="reset()">🔄 收起所有</button>
 </div>
 
@@ -690,9 +659,6 @@ function showBanner() {
     setTimeout(() => { notifAnim = false; }, 520);
   }, 2000);
 }
-const lock = document.getElementById('lockscreen');
-function toggleLock() { lock.classList.toggle('show'); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape') lock.classList.remove('show'); });
 function reset() {
   setState('dock');
   banner.classList.remove('show');

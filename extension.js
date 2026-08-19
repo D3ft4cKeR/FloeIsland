@@ -9,7 +9,6 @@ import {installOsdTakeover} from './lib/osdState.js';
 import {createFullPanel} from './lib/fullPanel.js';
 import {createNotifSurface, NotificationWatcher} from './lib/notifState.js';
 import {createSubtitleSurface, SubtitleDriver} from './lib/subtitleState.js';
-import {LockOverlay} from './lib/lockOverlay.js';
 import {ROLE, State, SETTINGS_SCHEMA} from './lib/constants.js';
 
 export default class FloeDockExtension extends Extension {
@@ -34,9 +33,6 @@ export default class FloeDockExtension extends Extension {
 
         // 字幕 → 岛屿展示（MPRIS 歌词）
         this._subtitleDriver = new SubtitleDriver(this, this._dock);
-
-        // 锁屏 → 全屏覆盖
-        this._lockOverlay = new LockOverlay(this, this._dock);
 
         // 会话模式变化（锁定/解锁等）后，面板会重新布局并 show() 各容器，需要再次隐藏
         this._sessionUpdatedId = Main.sessionMode.connect(
@@ -74,10 +70,6 @@ export default class FloeDockExtension extends Extension {
         if (this._subtitleDriver) {
             this._subtitleDriver.destroy();
             this._subtitleDriver = null;
-        }
-        if (this._lockOverlay) {
-            this._lockOverlay.destroy();
-            this._lockOverlay = null;
         }
         if (this._dock) {
             this._dock.destroy();
