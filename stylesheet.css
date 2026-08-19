@@ -291,14 +291,16 @@
 
 /* ================= 消息模块 ================= */
 .floedock-notif-row{
-    padding: 8px 12px;
-    border-radius: 12px;
+    padding: 10px 14px;
+    border-radius: 13px;
     /* 行占满面板宽度（卡片背景延伸到右，不再右侧大片空白） */
     background-color: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.04);
-    margin: 2px 0;
+    /* 行间留清晰间隙，卡片不挤在一起 */
+    margin: 5px 2px;
 }
 .floedock-notif-row > * + * { margin-left: 10px; }
+.floedock-notif-row + .floedock-notif-row { margin-top: 6px; }
 
 .floedock-notif-row:hover {
     background-color: rgba(255, 255, 255, 0.06);
@@ -307,6 +309,11 @@
 
 .floedock-notif-icon {
     color: rgba(255, 255, 255, 0.90);
+    /* 图标圆底，消息卡片更精致（对齐通知卡片图标） */
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+    padding: 6px;
+    -st-icon-style: symbolic;
 }
 
 .floedock-notif-app {
