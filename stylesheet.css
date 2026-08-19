@@ -182,7 +182,13 @@
 /* ================= 通用模块 ================= */
 .floedock-module {
     padding: 2px 4px;
-    spacing: 8px;
+    spacing: 4px;
+}
+
+/* 消息模块底部清空栏 */
+.floedock-msg-clear-col {
+    spacing: 4px;
+    padding: 2px 4px;
 }
 
 /* 消息模块右侧固定清空栏 */
