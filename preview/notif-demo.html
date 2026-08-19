@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<title>通知动画演示 v2</title>
+<style>
+:root {
+    --bg: #05070c;
+    --surf: rgba(12,13,16,0.98);
+    --border: rgba(255,255,255,0.14);
+    --text: rgba(255,255,255,0.92);
+    --text-dim: rgba(255,255,255,0.50);
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+    background: var(--bg);
+    font-family: system-ui, "Noto Sans CJK SC", sans-serif;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+}
+
+/* 模拟顶栏 */
+.topbar {
+    width: 100%;
+    height: 32px;
+    background: rgba(30,31,34,0.95);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    position: relative;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    color: var(--text-dim);
+    font-size: 11px;
+}
+
+/* 岛屿容器 —— 整个向下移动 */
+.island {
+    position: absolute;
+    top: 1px; /* 胶囊顶部紧贴顶栏内 */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20;
+}
+
+/* 胶囊 */
+.capsule {
+    width: 104px;
+    height: 30px;
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 13px;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+}
+.capsule:hover { border-color: rgba(255,255,255,0.30); }
+
+/* 通知卡片内容（在胶囊内部渲染，随胶囊一起移动和变形） */
+.notif-content {
+    position: absolute;
+    inset: 0;
+    padding: 10px 14px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+.notif-content.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.notif-left {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+.notif-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+.notif-app-name {
+    font-size: 8pt;
+    color: var(--text-dim);
+    text-align: center;
+    max-width: 50px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.notif-right {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+.notif-time {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 8pt;
+    color: var(--text-dim);
+}
+.notif-title {
+    font-size: 11pt;
+    font-weight: 600;
+    color: var(--text);
+    padding-right: 50px;
+}
+.notif-body {
+    font-size: 10pt;
+    color: rgba(255,255,255,0.70);
+    margin-top: 2px;
+}
+
+/* 时钟文字（Dock 态显示） */
+.clock-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+.clock-text.hidden { opacity: 0; }
+
+/* 后方堆叠指示 */
+.stack-indicator {
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.stack-indicator.visible { opacity: 1; }
+.stack-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+}
+.stack-dot.active { background: rgba(255,255,255,0.8); }
+
+/* 操作说明 */
+.hint {
+    position: fixed;
+    bottom: 30px;
+    color: var(--text-dim);
+    font-size: 11pt;
+    text-align: center;
+    line-height: 2;
+}
+.hint strong { color: var(--text); }
+
+.status {
+    position: fixed;
+    top: 50px;
+    color: rgba(255,255,255,0.30);
+    font-size: 9pt;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <span>Activities</span>
+    <span>14:32 周三</span>
+    <span>⚡ 🔊</span>
+</div>
+
+<div class="island" id="island">
+    <div class="capsule" id="capsule">
+        <div class="clock-text" id="clock">14:32</div>
+        <div class="notif-content" id="notifContent">
+            <div class="notif-left">
+                <div class="notif-icon" id="notifIcon"></div>
+                <div class="notif-app-name" id="notifApp"></div>
+            </div>
+            <div class="notif-right">
+                <div class="notif-time" id="notifTime"></div>
+                <div class="notif-title" id="notifTitle"></div>
+                <div class="notif-body" id="notifBody"></div>
+            </div>
+        </div>
+    </div>
+    <div class="stack-indicator" id="stackIndicator">
+        <div class="stack-dot active"></div>
+        <div class="stack-dot"></div>
+        <div class="stack-dot"></div>
+    </div>
+</div>
+
+<div class="status" id="status">Dock 态 — 点击胶囊查看通知动画</div>
+
+<div class="hint">
+    <strong>动画流程：</strong><br>
+    1. 通知来了 → 岛体<strong>整体下移</strong>突破顶栏下边界，同时<strong>变宽+变高</strong>成为通知卡片<br>
+    2. 左侧图标+名称，右侧标题+内容，右上角时间<br>
+    3. 显示 2 秒 → 有通知则切换下一条（淡入淡出），无通知则<strong>缩回+上移</strong>归位<br>
+    4. <strong>悬停暂停</strong>，<strong>Esc/点击</strong>收起
+</div>
+
+<script>
+const island = document.getElementById('island');
+const capsule = document.getElementById('capsule');
+const clock = document.getElementById('clock');
+const notifContent = document.getElementById('notifContent');
+const stackIndicator = document.getElementById('stackIndicator');
+const status = document.getElementById('status');
+
+const notifIcon = document.getElementById('notifIcon');
+const notifApp = document.getElementById('notifApp');
+const notifTime = document.getElementById('notifTime');
+const notifTitle = document.getElementById('notifTitle');
+const notifBody = document.getElementById('notifBody');
+
+const notifications = [
+    { icon: '💬', app: '微信', title: '张三', body: '明天下午开会，记得带上项目报告', time: '14:30' },
+    { icon: '📧', app: '邮件', title: 'GitHub', body: 'Your pull request has been merged', time: '14:28' },
+    { icon: '🔔', app: '系统', title: '更新可用', body: 'GNOME 46.2 已准备好安装', time: '14:25' },
+    { icon: '🎵', app: '音乐', title: '正在播放', body: '周杰伦 - 晴天', time: '14:20' },
+];
+
+// 尺寸参数
+const CAPSULE_W = 104;
+const CAPSULE_H = 30;
+const CARD_W = 380;
+const CARD_H = 90;
+const TOPBAR_H = 32;
+const PULL_DOWN = 36; // 下移距离（突破顶栏下边界）
+const ANIM_MS = 500;
+
+let state = 'dock';
+let currentIdx = 0;
+let advanceTimer = null;
+let hoverPaused = false;
+
+function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+function easeInCubic(t) { return t * t * t; }
+
+function showNotif(idx) {
+    const n = notifications[idx % notifications.length];
+    notifIcon.textContent = n.icon;
+    notifApp.textContent = n.app;
+    notifTime.textContent = n.time;
+    notifTitle.textContent = n.title;
+    notifBody.textContent = n.body;
+    notifContent.classList.add('visible');
+    clock.classList.add('hidden');
+}
+
+function hideNotif() {
+    notifContent.classList.remove('visible');
+    clock.classList.remove('hidden');
+}
+
+function updateStack() {
+    const remaining = notifications.length - currentIdx - 1;
+    if (remaining > 0) {
+        stackIndicator.classList.add('visible');
+        const dots = stackIndicator.children;
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.toggle('active', i === 0);
+            dots[i].style.display = i < remaining ? '' : 'none';
+        }
+    } else {
+        stackIndicator.classList.remove('visible');
+    }
+}
+
+// 同时：下移 + 变宽 + 变高
+function expand() {
+    if (state !== 'dock') return;
+    state = 'expanding';
+    status.textContent = '展开中…';
+    showNotif(currentIdx);
+    updateStack();
+
+    const t0 = performance.now();
+    function frame(now) {
+        const t = Math.min(1, (now - t0) / ANIM_MS);
+        const e = easeOutCubic(t);
+        const w = Math.round(CAPSULE_W + (CARD_W - CAPSULE_W) * e);
+        const h = Math.round(CAPSULE_H + (CARD_H - CAPSULE_H) * e);
+        const y = Math.round(PULL_DOWN * e); // 向下移动
+
+        capsule.style.width = w + 'px';
+        capsule.style.height = h + 'px';
+        capsule.style.borderRadius = '12px';
+        island.style.top = (1 + y) + 'px';
+
+        if (t < 1) {
+            requestAnimationFrame(frame);
+        } else {
+            state = 'notif';
+            status.textContent = `通知态 — 第 ${currentIdx + 1}/${notifications.length} 条`;
+            startAdvance();
+        }
+    }
+    requestAnimationFrame(frame);
+}
+
+// 同时：上移 + 缩回宽度 + 缩短高度
+function collapse() {
+    if (state !== 'notif') return;
+    state = 'collapsing';
+    stopAdvance();
+    status.textContent = '收起中…';
+
+    const t0 = performance.now();
+    function frame(now) {
+        const t = Math.min(1, (now - t0) / ANIM_MS);
+        const e = easeInCubic(t);
+        const w = Math.round(CARD_W + (CAPSULE_W - CARD_W) * e);
+        const h = Math.round(CARD_H + (CAPSULE_H - CARD_H) * e);
+        const y = Math.round(PULL_DOWN * (1 - e));
+
+        capsule.style.width = w + 'px';
+        capsule.style.height = h + 'px';
+        capsule.style.borderRadius = e < 0.5 ? '12px' : '999px';
+        island.style.top = (1 + y) + 'px';
+
+        if (t < 1) {
+            requestAnimationFrame(frame);
+        } else {
+            capsule.style.borderRadius = '999px';
+            hideNotif();
+            stackIndicator.classList.remove('visible');
+            state = 'dock';
+            currentIdx = 0;
+            status.textContent = 'Dock 态 — 点击胶囊查看通知动画';
+        }
+    }
+    requestAnimationFrame(frame);
+}
+
+// 自动轮播
+function startAdvance() {
+    stopAdvance();
+    advanceTimer = setTimeout(() => {
+        if (hoverPaused) { startAdvance(); return; }
+        advance();
+    }, 2000);
+}
+function stopAdvance() {
+    if (advanceTimer) { clearTimeout(advanceTimer); advanceTimer = null; }
+}
+
+function advance() {
+    if (currentIdx >= notifications.length - 1) {
+        // 最后一条 → 收起
+        collapse();
+        return;
+    }
+    // 淡出当前
+    notifContent.style.transition = 'opacity 0.2s ease';
+    notifContent.style.opacity = '0';
+    setTimeout(() => {
+        currentIdx++;
+        showNotif(currentIdx);
+        updateStack();
+        notifContent.style.opacity = '1';
+        status.textContent = `通知态 — 第 ${currentIdx + 1}/${notifications.length} 条`;
+        startAdvance();
+    }, 220);
+}
+
+// 交互
+capsule.addEventListener('click', () => {
+    if (state === 'dock') expand();
+    else if (state === 'notif') collapse();
+});
+island.addEventListener('mouseenter', () => { hoverPaused = true; });
+island.addEventListener('mouseleave', () => {
+    hoverPaused = false;
+    if (state === 'notif') startAdvance();
+});
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && state === 'notif') collapse();
+});
+</script>
+</body>
+</html>
