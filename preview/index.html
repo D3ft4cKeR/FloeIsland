@@ -150,7 +150,11 @@ body {
 .mtitle { font-size: 15px; font-weight: 700; display: flex; align-items: center; gap: 8px; }
 .mtitle .ico { font-size: 16px; }
 
-/* 消息 */
+/* 消息（左列表可滚动 + 右固定清空栏） */
+#m-msg { flex-direction: row; gap: 6px; }
+.msg-col { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
+.msg-clear { width: 36px; flex: none; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
+.msg-clear:hover { background: rgba(255,255,255,0.14); }
 .msg { display: flex; gap: 10px; padding: 8px 10px; align-items: flex-start; cursor: pointer; }
 .msg:hover { background: rgba(255,255,255,0.06); }
 .msg .ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex: none; }
@@ -171,7 +175,16 @@ body {
 .w-day .ic { font-size: 22px; }
 .w-day div { font-size: 11px; margin-top: 2px; }
 
-/* 日历 */
+/* 日历（只显示当天 + 右侧节日） */
+.cal-today { display: flex; gap: 12px; flex: 1; }
+.cal-today-left { flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 6px 10px; }
+.cal-today-left .ct-title { font-size: 13px; font-weight: 700; }
+.cal-today-left .ct-bignum { font-size: 60px; font-weight: 200; line-height: 1.1; }
+.cal-today-left .ct-line { color: var(--text-mid); font-size: 11px; }
+.cal-right { width: 150px; flex: none; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
+.cal-right .cr-title { font-weight: 700; font-size: 12px; }
+.cal-right .cr-fest { color: #ffd78f; font-size: 11px; font-weight: 600; }
+.cal-right .cr-line { color: var(--text-mid); font-size: 10px; }
 .cal-body { display: flex; gap: 10px; }
 .cal-left { flex: 1; min-width: 0; }
 .cal-right { width: 120px; flex: none; padding: 8px 10px; display: flex; flex-direction: column; gap: 4px; }
@@ -323,18 +336,23 @@ body {
           </div>
           <div id="content">
             <div class="module active" id="m-msg">
-              <div class="msg"><div class="ic" style="background:#2d6;color:#fff">💬</div>
-                <div style="flex:1"><div class="t"><span>Telegram</span><span>14:20</span></div>
-                <div class="h">张三：晚上一起吃饭？</div><div class="b">明天见 👋</div></div></div>
-              <div class="msg"><div class="ic" style="background:#26a;color:#fff">📧</div>
-                <div style="flex:1"><div class="t"><span>邮件</span><span>13:05</span></div>
-                <div class="h">新邮件：FloeDock v0.4.0</div><div class="b">深色灵动岛风 UI 已发布…</div></div></div>
-              <div class="msg"><div class="ic" style="background:#a62;color:#fff">🖥️</div>
-                <div style="flex:1"><div class="t"><span>系统</span><span>12:40</span></div>
-                <div class="h">屏幕截图已保存</div><div class="b">~/Pictures/Screenshot from 2026-08-18 12-40-01.png</div></div></div>
+              <div class="msg-col">
+                <div class="msg"><div class="ic" style="background:#2d6;color:#fff">💬</div>
+                  <div style="flex:1"><div class="t"><span>Telegram</span><span>14:20</span></div>
+                  <div class="h">张三：晚上一起吃饭？</div><div class="b">明天见 👋</div></div></div>
+                <div class="msg"><div class="ic" style="background:#26a;color:#fff">📧</div>
+                  <div style="flex:1"><div class="t"><span>邮件</span><span>13:05</span></div>
+                  <div class="h">新邮件：FloeDock v0.4.0</div><div class="b">深色灵动岛风 UI 已发布…</div></div></div>
+                <div class="msg"><div class="ic" style="background:#a62;color:#fff">🖥️</div>
+                  <div style="flex:1"><div class="t"><span>系统</span><span>12:40</span></div>
+                  <div class="h">屏幕截图已保存</div><div class="b">~/Pictures/Screenshot from 2026-08-18 12-40-01.png</div></div></div>
+                <div class="msg"><div class="ic" style="background:#26a;color:#fff">📧</div>
+                  <div style="flex:1"><div class="t"><span>邮件</span><span>11:00</span></div>
+                  <div class="h">更多消息（可滚动）</div><div class="b">第 4 条，测试滚动…</div></div></div>
+              </div>
+              <div class="msg-clear">🗑️</div>
             </div>
             <div class="module" id="m-weather">
-              <div class="mtitle"><span class="ico">🌤️</span>天气</div>
               <div class="w-now"><div style="font-size:52px">☀️</div>
                 <div><div class="w-temp">32°</div><div class="w-desc">晴 · 体感 34°</div></div></div>
               <div class="card w-detail">
@@ -352,21 +370,23 @@ body {
               </div>
             </div>
             <div class="module" id="m-cal">
-              <div class="mtitle"><span class="ico">📅</span>日历 · 2026年8月</div>
-              <div class="cal-body">
-                <div class="cal-left">
-                  <div class="cal-grid" id="cal-grid"></div>
+              <div class="cal-today">
+                <div class="cal-today-left">
+                  <div class="ct-title">2026年8月18日 星期二</div>
+                  <div class="ct-bignum">18</div>
+                  <div class="ct-line">农历七月初六</div>
+                  <div class="ct-line">丙午马年 · 生肖马</div>
                 </div>
-                <div class="cal-right card" id="cal-right">
-                  <div class="cr-title" id="cr-title">8月18日</div>
-                  <div class="cr-fest" id="cr-fest"></div>
-                  <div class="cr-line" id="cr-lunar"></div>
-                  <div class="cr-line" id="cr-zodiac"></div>
+                <div class="cal-right card">
+                  <div class="cr-title">节日 · 节气</div>
+                  <div class="cr-fest">8月19日 七夕</div>
+                  <div class="cr-fest">8月23日 处暑</div>
+                  <div class="cr-line">中元节 8月27日</div>
                 </div>
               </div>
             </div>
             <div class="module" id="m-music">
-              <div class="mtitle"><span class="ico">🎵</span>音乐 <span style="margin-left:auto;font-size:10px;color:var(--text-low)">Spotify</span></div>
+              <div style="font-size:10px;color:var(--text-low);margin-bottom:-6px">Spotify</div>
               <div class="music-h card">
                 <div class="music-cover">🎧</div>
                 <div class="music-right">
@@ -380,8 +400,11 @@ body {
               </div>
             </div>
             <div class="module" id="m-timer">
-              <div class="mtitle"><span class="ico">⏱️</span>计时</div>
-              <div class="timer-display">12:00</div>
+              <div style="display:flex;justify-content:center;gap:2px;margin-bottom:2px">
+                <button style="padding:2px 12px;border-radius:999px;border:1px solid var(--border-hi);background:rgba(255,255,255,0.2);color:#fff;font-size:11px;cursor:pointer">倒计时</button>
+                <button style="padding:2px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:var(--text-mid);font-size:11px;cursor:pointer">秒表</button>
+              </div>
+              <div class="timer-display" style="font-size:44px">12:00</div>
               <div class="timer-chips">
                 <button>1分</button><button>3分</button><button>5分</button>
                 <button>10分</button><button>25分</button>
@@ -389,8 +412,7 @@ body {
               <div class="timer-ctls"><button>开始</button><button>重置</button></div>
             </div>
             <div class="module" id="m-translate">
-              <div class="mtitle"><span class="ico">🌐</span>翻译 <span style="margin-left:auto"><button class="t-dir">中 → EN</button></span></div>
-              <div class="t-input"><input placeholder="输入要翻译的文本…"><button class="t-dir">翻译</button></div>
+              <div class="t-input"><button class="t-dir">中 → EN</button><input placeholder="输入要翻译的文本…"><button class="t-dir">翻译</button></div>
               <div class="card t-result"><small>翻译结果</small>Hello, world! This is the FloeDock translate module preview.</div>
             </div>
           </div>

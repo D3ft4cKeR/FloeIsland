@@ -185,6 +185,17 @@
     spacing: 8px;
 }
 
+/* 消息模块右侧固定清空栏 */
+.floedock-msg-clear-col {
+    spacing: 4px;
+    padding: 2px;
+}
+
+.floedock-msg-clear-btn {
+    border-radius: 10px;
+    min-height: 60px;
+}
+
 .floedock-module-header {
     spacing: 8px;
     padding: 0 2px;
@@ -442,6 +453,19 @@
 .floedock-calendar-dayinfo-text {
     font-size: 9.5pt;
     color: rgba(255, 255, 255, 0.65);
+}
+
+/* 当天大数字 */
+.floedock-calendar-bignum {
+    font-size: 64pt;
+    font-weight: 200;
+    color: #ffffff;
+    font-feature-settings: 'tnum';
+}
+
+/* 右侧节日卡 */
+.floedock-calendar-festcard {
+    border-left: 1px solid rgba(255, 255, 255, 0.10);
 }
 
 .floedock-calendar-cell {
