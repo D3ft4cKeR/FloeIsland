@@ -23,9 +23,9 @@
 }
 
 /* 胶囊内 OSD 信息（音量/亮度/截图等，灵动岛式） */
-.floedock-osd-capsule {
-    spacing: 6px;
+.floedock-osd-capsule{
 }
+.floedock-osd-capsule > * + * { margin-top: 6px; }
 
 .floedock-osd-capsule-icon {
     color: #ffffff;
@@ -38,14 +38,14 @@
 }
 
 /* ================= 悬停工具栏 ================= */
-.floedock-toolbar {
-    spacing: 4px;
+.floedock-toolbar{
     padding: 2px 8px;
     /* 工具栏深色胶囊背景（与岛/面板统一近黑，无割裂） */
     background-color: rgba(12, 13, 16, 0.98);
     border: 1px solid rgba(255, 255, 255, 0.14);
     border-radius: 999px;
 }
+.floedock-toolbar > * + * { margin-top: 4px; }
 
 .floedock-tool {
     border-radius: 999px;
@@ -69,10 +69,10 @@
 }
 
 /* ================= 全功能面板 ================= */
-.floedock-panel-body {
+.floedock-panel-body{
     padding: 10px 12px 10px 12px;
-    spacing: 6px;
 }
+.floedock-panel-body > * + * { margin-top: 6px; }
 
 /* 搜索 */
 .floedock-search-row {
@@ -107,11 +107,11 @@
     padding: 4px 6px;
 }
 
-.floedock-search-result {
-    spacing: 10px;
+.floedock-search-result{
     padding: 6px 10px;
     border-radius: 10px;
 }
+.floedock-search-result > * + * { margin-left: 10px; }
 
 .floedock-search-result:hover {
     background-color: rgba(255, 255, 255, 0.06);
@@ -132,15 +132,15 @@
     padding: 0 2px;
 }
 
-.floedock-tab-box {
-    spacing: 2px;
+.floedock-tab-box{
 }
+.floedock-tab-box > * + * { margin-left: 2px; }
 
-.floedock-tab {
-    spacing: 6px;
+.floedock-tab{
     padding: 4px 10px;
     border-radius: 999px;
 }
+.floedock-tab > * + * { margin-left: 6px; }
 
 .floedock-tab:hover {
     background-color: rgba(255, 255, 255, 0.06);
@@ -180,32 +180,32 @@
 }
 
 /* ================= 通用模块 ================= */
-.floedock-module {
+.floedock-module{
     padding: 2px 4px;
-    spacing: 4px;
 }
+.floedock-module > * + * { margin-top: 4px; }
 
 /* 消息模块底部清空栏 */
-.floedock-msg-clear-col {
-    spacing: 4px;
+.floedock-msg-clear-col{
     padding: 2px 4px;
 }
+.floedock-msg-clear-col > * + * { margin-top: 4px; }
 
 /* 消息模块右侧固定清空栏 */
-.floedock-msg-clear-col {
-    spacing: 4px;
+.floedock-msg-clear-col{
     padding: 2px;
 }
+.floedock-msg-clear-col > * + * { margin-top: 4px; }
 
 .floedock-msg-clear-btn {
     border-radius: 10px;
     min-height: 60px;
 }
 
-.floedock-module-header {
-    spacing: 8px;
+.floedock-module-header{
     padding: 0 2px;
 }
+.floedock-module-header > * + * { margin-top: 8px; }
 
 .floedock-module-title {
     font-weight: 700;
@@ -241,12 +241,12 @@
 }
 
 /* segmented 控件 */
-.floedock-segmented {
-    spacing: 2px;
+.floedock-segmented{
     border-radius: 999px;
     background-color: rgba(255, 255, 255, 0.05);
     padding: 2px;
 }
+.floedock-segmented > * + * { margin-top: 2px; }
 
 .floedock-seg-button {
     border-radius: 999px;
@@ -273,8 +273,7 @@
 }
 
 /* ================= 消息模块 ================= */
-.floedock-notif-row {
-    spacing: 10px;
+.floedock-notif-row{
     padding: 8px 12px;
     border-radius: 12px;
     /* 行占满面板宽度（卡片背景延伸到右，不再右侧大片空白） */
@@ -282,6 +281,7 @@
     border: 1px solid rgba(255, 255, 255, 0.04);
     margin: 2px 0;
 }
+.floedock-notif-row > * + * { margin-left: 10px; }
 
 .floedock-notif-row:hover {
     background-color: rgba(255, 255, 255, 0.06);
@@ -312,18 +312,18 @@
 }
 
 /* ================= 天气模块 ================= */
-.floedock-weather-loading {
-    spacing: 12px;
+.floedock-weather-loading{
 }
+.floedock-weather-loading > * + * { margin-top: 12px; }
 
-.floedock-weather-now {
-    spacing: 14px;
+.floedock-weather-now{
     padding: 6px 6px 2px 6px;
 }
+.floedock-weather-now > * + * { margin-left: 14px; }
 
-.floedock-weather-now-extra {
-    spacing: 3px;
+.floedock-weather-now-extra{
 }
+.floedock-weather-now-extra > * + * { margin-top: 3px; }
 
 .floedock-weather-now-extra-label {
     font-size: 9.5pt;
@@ -341,22 +341,22 @@
     color: rgba(255, 255, 255, 0.72);
 }
 
-.floedock-weather-details {
-    padding: 6px 8px;
-    spacing: 12px; /* 左右两列间距 */
+.floedock-weather-details{
+    padding: 6px 8px; /* 左右两列间距 */
     background-color: rgba(255, 255, 255, 0.04);
     border-radius: 12px;
 }
+.floedock-weather-details > * + * { margin-left: 12px; }
 
-.floedock-weather-detail-col {
-    spacing: 4px;
+.floedock-weather-detail-col{
 }
+.floedock-weather-detail-col > * + * { margin-top: 4px; }
 
-.floedock-weather-detail {
-    spacing: 6px;
+.floedock-weather-detail{
     padding: 1px 2px;
     /* 内容不被截断：允许溢出时换行 */
 }
+.floedock-weather-detail > * + * { margin-left: 6px; }
 
 .floedock-weather-detail-key {
     font-size: 9.5pt;
@@ -370,18 +370,18 @@
     color: rgba(255, 255, 255, 0.92);
 }
 
-.floedock-weather-forecast {
-    spacing: 8px;
+.floedock-weather-forecast{
     padding: 6px 0;
 }
+.floedock-weather-forecast > * + * { margin-left: 8px; }
 
-.floedock-weather-day {
-    spacing: 2px;
+.floedock-weather-day{
     background-color: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 6px 4px;
 }
+.floedock-weather-day > * + * { margin-top: 2px; }
 
 .floedock-weather-day:hover {
     background-color: rgba(255, 255, 255, 0.09);
@@ -404,18 +404,18 @@
 
 /* ================= 日历模块 ================= */
 /* 统一卡片：日/月/年三视图共用同一视觉语言（与详情/天气卡片一致） */
-.floedock-calendar-card {
+.floedock-calendar-card{
     background-color: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 14px;
     padding: 6px 8px;
-    spacing: 6px;
 }
+.floedock-calendar-card > * + * { margin-top: 6px; }
 
-.floedock-calendar-nav {
-    spacing: 10px;
+.floedock-calendar-nav{
     padding: 2px 0;
 }
+.floedock-calendar-nav > * + * { margin-top: 10px; }
 
 .floedock-calendar-month {
     font-weight: 700;
@@ -432,17 +432,17 @@
     color: rgba(255, 255, 255, 0.42);
 }
 
-.floedock-calendar-row {
-    spacing: 2px;
+.floedock-calendar-row{
     padding: 1px 0;
 }
+.floedock-calendar-row > * + * { margin-left: 2px; }
 
 /* 右侧当日信息栏 */
-.floedock-calendar-dayinfo {
-    spacing: 6px;
+.floedock-calendar-dayinfo{
     padding: 4px 6px;
     border-left: 1px solid rgba(255, 255, 255, 0.10);
 }
+.floedock-calendar-dayinfo > * + * { margin-top: 6px; }
 
 .floedock-calendar-dayinfo-title {
     font-weight: 700;
@@ -515,21 +515,21 @@
     padding: 2px 0 4px 0;
 }
 
-.floedock-calendar-yeargrid {
-    spacing: 6px;
+.floedock-calendar-yeargrid{
 }
+.floedock-calendar-yeargrid > * + * { margin-top: 6px; }
 
-.floedock-calendar-year-row {
-    spacing: 6px;
+.floedock-calendar-year-row{
 }
+.floedock-calendar-year-row > * + * { margin-top: 6px; }
 
-.floedock-calendar-mini-month {
+.floedock-calendar-mini-month{
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
     padding: 8px 4px;
-    spacing: 4px;
 }
+.floedock-calendar-mini-month > * + * { margin-top: 4px; }
 
 .floedock-calendar-mini-month:hover {
     background-color: rgba(255, 255, 255, 0.12);
@@ -553,9 +553,9 @@
     padding: 2px 0 4px 0;
 }
 
-.floedock-calendar-day-body {
-    spacing: 6px;
+.floedock-calendar-day-body{
 }
+.floedock-calendar-day-body > * + * { margin-top: 6px; }
 
 .floedock-calendar-detail-line1 {
     font-weight: 700;
@@ -576,17 +576,17 @@
     color: rgba(255, 255, 255, 0.55);
 }
 
-.floedock-music-body {
+.floedock-music-body{
     border-radius: 14px;
     background-color: rgba(255, 255, 255, 0.04);
     border: 1px solid rgba(255, 255, 255, 0.05);
     padding: 10px 12px;
-    spacing: 14px;
 }
+.floedock-music-body > * + * { margin-top: 14px; }
 
-.floedock-music-right {
-    spacing: 5px;
+.floedock-music-right{
 }
+.floedock-music-right > * + * { margin-top: 5px; }
 
 .floedock-music-cover {
     border-radius: 12px;
@@ -603,10 +603,10 @@
     color: rgba(255, 255, 255, 0.72);
 }
 
-.floedock-music-controls {
-    spacing: 12px;
+.floedock-music-controls{
     padding: 6px;
 }
+.floedock-music-controls > * + * { margin-left: 12px; }
 
 .floedock-music-control {
     border-radius: 999px;
@@ -623,9 +623,9 @@
     color: #ffffff;
 }
 
-.floedock-music-progress-row {
-    spacing: 8px;
+.floedock-music-progress-row{
 }
+.floedock-music-progress-row > * + * { margin-left: 8px; }
 
 .floedock-music-time {
     font-size: 9pt;
@@ -638,9 +638,9 @@
     border-radius: 4px;
 }
 
-.floedock-music-empty {
-    spacing: 8px;
+.floedock-music-empty{
 }
+.floedock-music-empty > * + * { margin-top: 8px; }
 
 .floedock-music-empty-icon {
     color: rgba(255, 255, 255, 0.25);
@@ -651,10 +651,10 @@
     padding: 0 6px;
 }
 
-.floedock-notif-card {
-    spacing: 10px;
+.floedock-notif-card{
     margin: 0 6px;
 }
+.floedock-notif-card > * + * { margin-left: 10px; }
 
 .floedock-notif-card-icon {
     color: rgba(255, 255, 255, 0.90);
@@ -681,9 +681,9 @@
 }
 
 /* ================= 字幕展示态 ================= */
-.floedock-subtitle {
-    spacing: 10px;
+.floedock-subtitle{
 }
+.floedock-subtitle > * + * { margin-top: 10px; }
 
 .floedock-subtitle-cover {
     border-radius: 999px;
@@ -697,9 +697,9 @@
 }
 
 /* ================= OSD ================= */
-.floedock-osd {
-    spacing: 12px;
+.floedock-osd{
 }
+.floedock-osd > * + * { margin-top: 12px; }
 
 .floedock-osd-icon {
     color: #ffffff;
@@ -715,13 +715,13 @@
     padding: 60px;
 }
 
-.floedock-lock-center {
-    spacing: 14px;
+.floedock-lock-center{
 }
+.floedock-lock-center > * + * { margin-top: 14px; }
 
-.floedock-lock-timecard {
-    spacing: 6px;
+.floedock-lock-timecard{
 }
+.floedock-lock-timecard > * + * { margin-top: 6px; }
 
 .floedock-lock-time {
     font-size: 88pt;
@@ -740,23 +740,22 @@
     color: rgba(255, 255, 255, 0.68);
 }
 
-.floedock-lock-weather {
-    spacing: 8px;
+.floedock-lock-weather{
     padding-top: 4px;
 }
+.floedock-lock-weather > * + * { margin-top: 8px; }
 
 .floedock-lock-weather-text {
     font-size: 12pt;
     color: rgba(255, 255, 255, 0.85);
 }
 
-.floedock-lock-notifs {
-    spacing: 6px;
+.floedock-lock-notifs{
     margin-top: 28px;
 }
+.floedock-lock-notifs > * + * { margin-top: 6px; }
 
-.floedock-lock-notif {
-    spacing: 10px;
+.floedock-lock-notif{
     background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 12px;
@@ -764,6 +763,7 @@
     min-width: 320px;
     max-width: 420px;
 }
+.floedock-lock-notif > * + * { margin-top: 10px; }
 
 .floedock-lock-notif-app {
     font-size: 9pt;
@@ -787,9 +787,13 @@
     font-feature-settings: 'tnum';
 }
 
-.floedock-timer-presets {
-    spacing: 8px;
+.floedock-timer-icon {
+    color: rgba(255, 255, 255, 0.75);
 }
+
+.floedock-timer-presets{
+}
+.floedock-timer-presets > * + * { margin-top: 8px; }
 
 .floedock-timer-chip {
     background-color: rgba(255, 255, 255, 0.06);
@@ -834,9 +838,9 @@
     font-size: 10.5pt;
 }
 
-.floedock-timer-laps {
-    spacing: 2px;
+.floedock-timer-laps{
 }
+.floedock-timer-laps > * + * { margin-top: 2px; }
 
 .floedock-timer-lap {
     color: rgba(255, 255, 255, 0.80);
@@ -861,9 +865,9 @@
     font-size: 10.5pt;
 }
 
-.floedock-translate-inputrow {
-    spacing: 8px;
+.floedock-translate-inputrow{
 }
+.floedock-translate-inputrow > * + * { margin-top: 8px; }
 
 .floedock-translate-input {
     background-color: rgba(255, 255, 255, 0.05);
@@ -890,12 +894,12 @@
     font-size: 10.5pt;
 }
 
-.floedock-translate-result {
+.floedock-translate-result{
     background-color: rgba(255, 255, 255, 0.04);
     border-radius: 12px;
     padding: 10px 12px;
-    spacing: 8px;
 }
+.floedock-translate-result > * + * { margin-top: 8px; }
 
 .floedock-translate-result-text {
     font-size: 12pt;
