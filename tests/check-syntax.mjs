@@ -3,9 +3,9 @@
 import {readFileSync, readdirSync, statSync} from 'node:fs';
 import {createRequire} from 'node:module';
 import {resolve} from 'node:path';
-import {pathToFileURL} from 'node:url';
+import {pathToFileURL, fileURLToPath} from 'node:url';
 
-const root = resolve(new URL('..', import.meta.url).pathname);
+const root = resolve(fileURLToPath(new URL('..', import.meta.url)));
 const files = [];
 const walk = dir => {
     for (const name of readdirSync(dir)) {
