@@ -459,10 +459,12 @@ function setState(next) {
 
   if (next === 'dock') {
     floatEl.classList.remove('open');
-    // 收起：缩小淡出
+    // 收起：缩小淡出（胶囊反向，时钟恢复可见）
     floatEl.style.transition = 'transform 0.2s, opacity 0.2s';
     floatEl.style.transform = 'translateX(-50%) scaleX(0.1) scaleY(0.1)';
     floatEl.style.opacity = 0;
+    clockEl.style.transition = 'opacity 0.2s ease';
+    clockEl.style.opacity = '1';
     setTimeout(() => {
       toolbar.style.display = '';
       panelUI.style.opacity = 0;
@@ -488,26 +490,29 @@ function setState(next) {
   }
 
   if (next === 'panel') {
-    // 两阶段：先横拉 scaleX，再下沉 scaleY
+    // 里界面：胶囊分阶段形变（对齐扩展：时间淡化 → 横向拉长露搜索 → 向下拉出露模块 → tab淡入）
     floatEl.classList.add('open');
     toolbar.style.display = 'none';
     panelUI.style.display = 'block';
     panelUI.style.opacity = 0;
     floatEl.style.opacity = 1;
-    floatEl.style.transition = 'none';
+    floatEl.style.transition = 'transform 0.18s ease';
+    clockEl.style.transition = 'opacity 0.18s ease';
+    clockEl.style.opacity = '0'; // 1. 时间淡化
     setFloat(640, 244, 0.15, 0.1);
-    requestAnimationFrame(() => {
-      floatEl.style.transition = 'transform 0.45s cubic-bezier(0.34,1.56,0.64,1)';
-      floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(0.1)';
-      setTimeout(() => {
-        // 下沉
-        floatEl.style.transition = 'transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.2s';
+    hoverTimer = setTimeout(() => { // 2. 横向拉长到全宽（露搜索）
+      floatEl.style.transition = 'transform 0.34s cubic-bezier(0.3,0.8,0.25,1)';
+      floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(0.25)';
+      hoverTimer = setTimeout(() => { // 3. 向下拉出到全高（露模块）
+        floatEl.style.transition = 'transform 0.4s cubic-bezier(0.3,0.8,0.25,1)';
         floatEl.style.transform = 'translateX(-50%) scaleX(1) scaleY(1)';
-        panelUI.style.transition = 'opacity 0.3s';
-        panelUI.style.opacity = 1;
-        updateIndicator(0);
-      }, 450);
-    });
+        hoverTimer = setTimeout(() => { // 4. tab/模块淡入
+          panelUI.style.transition = 'opacity 0.28s ease';
+          panelUI.style.opacity = 1;
+          updateIndicator(0);
+        }, 400);
+      }, 340);
+    }, 180);
   }
 }
 
