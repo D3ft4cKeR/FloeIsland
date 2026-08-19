@@ -463,7 +463,7 @@
 
 /* 当天大数字 */
 .floedock-calendar-bignum {
-    font-size: 64pt;
+    font-size: 50pt;
     font-weight: 200;
     color: #ffffff;
     font-feature-settings: 'tnum';

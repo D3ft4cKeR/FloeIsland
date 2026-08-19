@@ -151,10 +151,11 @@ body {
 .mtitle .ico { font-size: 16px; }
 
 /* 消息（左列表可滚动 + 右固定清空栏） */
-#m-msg { flex-direction: row; gap: 6px; }
+#m-msg { flex-direction: column; gap: 4px; }
 .msg-col { flex: 1; overflow-y: auto; display: flex; flex-direction: column; }
-.msg-clear { width: 36px; flex: none; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
-.msg-clear:hover { background: rgba(255,255,255,0.14); }
+.msg-clear-bar { display: flex; justify-content: flex-end; flex: none; }
+.msg-clear { padding: 4px 12px; border-radius: 999px; font-size: 11px; cursor: pointer; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); color: var(--text-hi); }
+.msg-clear:hover { background: rgba(255,255,255,0.16); }
 .msg { display: flex; gap: 10px; padding: 8px 10px; align-items: flex-start; cursor: pointer; }
 .msg:hover { background: rgba(255,255,255,0.06); }
 .msg .ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex: none; }
@@ -228,7 +229,16 @@ body {
 .music-track { flex: 1; height: 5px; border-radius: 3px; background: rgba(0,0,0,0.45); overflow: hidden; }
 .music-track i { display: block; height: 100%; width: 62%; background: var(--accent); border-radius: 3px; }
 
-/* 计时 */
+/* 计时（左右结构） */
+.timer-h { display: flex; gap: 14px; flex: 1; align-items: center; }
+.timer-left { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.timer-sub { color: var(--text-low); font-size: 10px; }
+.timer-set { display: flex; gap: 4px; }
+.timer-set input { background: rgba(255,255,255,0.06); border: 1px solid var(--border); border-radius: 999px; padding: 4px 8px; color: var(--text-hi); text-align: center; outline: none; }
+.timer-ctls-col { display: flex; flex-direction: column; gap: 8px; flex: none; }
+.timer-ctls-col button { padding: 6px 22px; border-radius: 999px; border: 1px solid var(--border-hi); background: rgba(255,255,255,0.1); color: #fff; font-size: 12px; font-weight: 600; cursor: pointer; }
+.timer-ctls-col button:hover { background: rgba(255,255,255,0.2); }
+.timer-laps { font-size: 10px; color: var(--text-mid); }
 .timer-display { text-align: center; font-size: 52px; font-weight: 200; font-family: "DejaVu Sans Mono", monospace; }
 .timer-chips { display: flex; justify-content: center; gap: 8px; }
 .timer-chips button { padding: 4px 14px; border-radius: 999px; border: 1px solid var(--border); background: rgba(255,255,255,0.07); color: var(--text-hi); font-size: 11px; cursor: pointer; }
@@ -330,7 +340,8 @@ body {
             <div class="tab" data-m="weather"><span class="ico">🌤️</span>天气</div>
             <div class="tab" data-m="cal"><span class="ico">📅</span>日历</div>
             <div class="tab" data-m="music"><span class="ico">🎵</span>音乐</div>
-            <div class="tab" data-m="timer"><span class="ico">⏱️</span>计时</div>
+            <div class="tab" data-m="timer"><span class="ico">⏳</span>倒计时</div>
+            <div class="tab" data-m="stopwatch"><span class="ico">⏱️</span>秒表</div>
             <div class="tab" data-m="translate"><span class="ico">🌐</span>翻译</div>
             <div id="indicator"></div>
           </div>
@@ -345,12 +356,12 @@ body {
                   <div class="h">新邮件：FloeDock v0.4.0</div><div class="b">深色灵动岛风 UI 已发布…</div></div></div>
                 <div class="msg"><div class="ic" style="background:#a62;color:#fff">🖥️</div>
                   <div style="flex:1"><div class="t"><span>系统</span><span>12:40</span></div>
-                  <div class="h">屏幕截图已保存</div><div class="b">~/Pictures/Screenshot from 2026-08-18 12-40-01.png</div></div></div>
+                  <div class="h">屏幕截图已保存</div><div class="b">~/Pictures/...</div></div></div>
                 <div class="msg"><div class="ic" style="background:#26a;color:#fff">📧</div>
                   <div style="flex:1"><div class="t"><span>邮件</span><span>11:00</span></div>
-                  <div class="h">更多消息（可滚动）</div><div class="b">第 4 条，测试滚动…</div></div></div>
+                  <div class="h">更多消息（可滚动）</div><div class="b">第 4 条…</div></div></div>
               </div>
-              <div class="msg-clear">🗑️</div>
+              <div class="msg-clear-bar"><button class="msg-clear">🗑️ 一键清空</button></div>
             </div>
             <div class="module" id="m-weather">
               <div class="w-now"><div style="font-size:52px">☀️</div>
@@ -400,16 +411,32 @@ body {
               </div>
             </div>
             <div class="module" id="m-timer">
-              <div style="display:flex;justify-content:center;gap:2px;margin-bottom:2px">
-                <button style="padding:2px 12px;border-radius:999px;border:1px solid var(--border-hi);background:rgba(255,255,255,0.2);color:#fff;font-size:11px;cursor:pointer">倒计时</button>
-                <button style="padding:2px 12px;border-radius:999px;border:1px solid var(--border);background:rgba(255,255,255,0.06);color:var(--text-mid);font-size:11px;cursor:pointer">秒表</button>
+              <div class="timer-h">
+                <div class="timer-left">
+                  <div class="timer-display" style="font-size:40px">12:00</div>
+                  <div class="timer-sub">准备就绪</div>
+                  <div class="timer-set"><input placeholder="分" style="width:44px"><input placeholder="秒" style="width:44px"></div>
+                  <div class="timer-chips">
+                    <button>1分</button><button>3分</button><button>5分</button>
+                    <button>10分</button><button>25分</button>
+                  </div>
+                </div>
+                <div class="timer-ctls-col">
+                  <button>开始</button><button>重置</button>
+                </div>
               </div>
-              <div class="timer-display" style="font-size:44px">12:00</div>
-              <div class="timer-chips">
-                <button>1分</button><button>3分</button><button>5分</button>
-                <button>10分</button><button>25分</button>
+            </div>
+            <div class="module" id="m-stopwatch">
+              <div class="timer-h">
+                <div class="timer-left">
+                  <div class="timer-display" style="font-size:40px">00:00.0</div>
+                  <div class="timer-sub">准备就绪</div>
+                  <div class="timer-laps" id="sw-laps"></div>
+                </div>
+                <div class="timer-ctls-col">
+                  <button>开始</button><button>计次</button><button>重置</button>
+                </div>
               </div>
-              <div class="timer-ctls"><button>开始</button><button>重置</button></div>
             </div>
             <div class="module" id="m-translate">
               <div class="t-input"><button class="t-dir">中 → EN</button><input placeholder="输入要翻译的文本…"><button class="t-dir">翻译</button></div>
