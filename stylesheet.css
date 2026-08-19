@@ -437,6 +437,15 @@
 }
 .floedock-calendar-row > * + * { margin-left: 2px; }
 
+/* 三卡整体下移 + 卡片间留间隙（root 是横向 BoxLayout） */
+.floedock-calendar-root{
+    padding: 14px 4px 6px 4px;
+}
+.floedock-calendar-root > .floedock-calendar-card + .floedock-calendar-card {
+    margin-top: 0;
+    margin-left: 10px;
+}
+
 /* 右侧当日信息栏 */
 .floedock-calendar-dayinfo{
     padding: 4px 6px;
@@ -646,9 +655,23 @@
     color: rgba(255, 255, 255, 0.25);
 }
 
-/* ================= 通知展示态 ================= */
-.floedock-notif {
-    padding: 0 6px;
+/* ================= 通知展示态（胶囊形变，对齐 notif-demo.html） ================= */
+/* 胶囊内部通知内容：无自身背景，随胶囊一起形变 */
+.floedock-notif-body {
+    padding: 8px 12px;
+}
+.floedock-notif-body > * + * { margin-left: 10px; }
+
+/* 堆叠指示点（dock 定位在胶囊下方） */
+.floedock-notif-dots {
+    padding: 0;
+}
+.floedock-notif-dots > * + * { margin-left: 4px; }
+.floedock-notif-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background-color: rgba(255, 255, 255, 0.35);
 }
 
 .floedock-notif-card{
@@ -667,10 +690,12 @@
 
 .floedock-notif-card-title {
     font-weight: 600;
+    font-size: 11pt;
     color: rgba(255, 255, 255, 0.95);
 }
 
 .floedock-notif-card-body {
+    font-size: 10pt;
     color: rgba(255, 255, 255, 0.78);
 }
 

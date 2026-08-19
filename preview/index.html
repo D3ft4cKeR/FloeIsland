@@ -626,7 +626,7 @@ function updateDayInfo(day) {
   document.getElementById('cr-zodiac').textContent = `丙午马年 · 生肖${zodiac}`;
 }
 
-/* ============ 通知动画：岛体下拉突破 + 横拉 + 2s 原路返回 ============ */
+/* ============ 通知动画：对齐 notif-demo.html —— 岛体整体下移 + 胶囊同时形变 ============ */
 const banner = document.getElementById('notif-banner');
 let bannerTimer = null;
 let notifAnim = false;
@@ -641,39 +641,35 @@ function showBanner() {
   panelUI.style.display = '';
   panelUI.style.opacity = 0;
 
-  // 胶囊自身变形为通知卡：先下拉突破顶栏（保留时间背景），再横拉
-  capsule.style.transition = 'none';
-  // 阶段一：向下拉长（胶囊变高，突破顶栏底部），宽度保持
+  // 同时：岛体下移突破顶栏 + 胶囊变宽/变高/圆角 999→12 + 时钟淡出 + 内容淡入
+  capsule.style.transition =
+    'width 0.5s cubic-bezier(0.25,0.1,0.25,1), height 0.5s cubic-bezier(0.25,0.1,0.25,1), border-radius 0.5s cubic-bezier(0.25,0.1,0.25,1)';
+  island.style.transition = 'transform 0.5s cubic-bezier(0.25,0.1,0.25,1)';
+  clockEl.style.transition = 'opacity 0.2s ease';
+  banner.style.transition = 'opacity 0.25s ease';
+  banner.style.opacity = '0';
+  banner.classList.add('show');
+
   requestAnimationFrame(() => {
-    capsule.style.transition = 'height 0.25s cubic-bezier(0.3,1.4,0.5,1)';
-    capsule.style.height = '72px';
-    capsule.style.borderRadius = '16px';
-    // 时间文字移到顶部
-    clockEl.style.transition = 'all 0.2s';
-    clockEl.style.marginTop = '-34px';
-    // 阶段二：左右横拉 + 继续拉长到消息卡尺寸（固定宽高 420×80，与内容无关）
-    setTimeout(() => {
-      capsule.style.transition = 'width 0.25s cubic-bezier(0.3,1.4,0.5,1), height 0.2s';
-      capsule.style.width = '420px';
-      capsule.style.height = '80px';
-      banner.classList.add('show'); // 岛体内部显示通知内容（时间保留在顶部）
-    }, 260);
-    // 2s 后原路返回：先缩宽（保持高度）→ 后上升（高度缩回胶囊）
-    bannerTimer = setTimeout(() => {
-      // ① 先左右缩小到胶囊宽
-      banner.classList.remove('show');
-      capsule.style.transition = 'width 0.22s cubic-bezier(0.4,0,0.7,0.3)';
-      capsule.style.width = '';
-      // ② 再上升缩回胶囊高
-      setTimeout(() => {
-        capsule.style.transition = 'height 0.2s cubic-bezier(0.4,0,0.7,0.3)';
-        capsule.style.height = '34px';
-        capsule.style.borderRadius = '999px';
-        clockEl.style.marginTop = '';
-        setTimeout(() => { notifAnim = false; }, 220);
-      }, 220);
-    }, 2000);
+    island.style.transform = 'translateY(36px)'; // 岛体整体下移（突破顶栏下边界）
+    capsule.style.width = '420px';
+    capsule.style.height = '80px';
+    capsule.style.borderRadius = '12px';
+    clockEl.style.opacity = '0'; // 时钟文字淡出
+    banner.style.opacity = '1';  // 通知内容淡入
   });
+
+  // 2s 后原路返回：同时上移 + 缩回宽/高 + 圆角复原 + 时钟淡入
+  bannerTimer = setTimeout(() => {
+    banner.classList.remove('show');
+    banner.style.opacity = '0';
+    capsule.style.width = '';
+    capsule.style.height = '34px';
+    capsule.style.borderRadius = '999px';
+    island.style.transform = 'translateY(0)';
+    clockEl.style.opacity = '1';
+    setTimeout(() => { notifAnim = false; }, 520);
+  }, 2000);
 }
 const lock = document.getElementById('lockscreen');
 function toggleLock() { lock.classList.toggle('show'); }
@@ -681,11 +677,13 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') lock.classLi
 function reset() {
   setState('dock');
   banner.classList.remove('show');
+  banner.style.opacity = '1';
   capsule.style.transition = 'height 0.2s, width 0.2s';
   capsule.style.height = '34px';
   capsule.style.width = '';
   capsule.style.borderRadius = '999px';
-  clockEl.style.marginTop = '';
+  island.style.transform = 'translateY(0)';
+  clockEl.style.opacity = '1';
   notifAnim = false;
 }
 
