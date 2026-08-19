@@ -71,7 +71,7 @@
       <description>While FloeDock is enabled, the default GNOME notification banners are suppressed so that all notifications are shown on the island instead.</description>
     </key>
     <key name="notif-duration" type="i">
-      <default>3</default>
+      <default>2</default>
       <range min="1" max="5"/>
       <summary>Notification display duration (s)</summary>
       <description>How long each stacked notification stays on the island before switching to the next one.</description>
