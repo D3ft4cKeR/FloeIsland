@@ -420,6 +420,30 @@
     padding: 1px 0;
 }
 
+/* 右侧当日信息栏 */
+.floedock-calendar-dayinfo {
+    spacing: 6px;
+    padding: 4px 6px;
+    border-left: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.floedock-calendar-dayinfo-title {
+    font-weight: 700;
+    font-size: 11pt;
+    color: rgba(255, 255, 255, 0.95);
+}
+
+.floedock-calendar-dayinfo-fest {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #ffd78f;
+}
+
+.floedock-calendar-dayinfo-text {
+    font-size: 9.5pt;
+    color: rgba(255, 255, 255, 0.65);
+}
+
 .floedock-calendar-cell {
     border-radius: 10px;
     padding: 1px 0;
