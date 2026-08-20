@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FloeIsland | 浮灵岛 — v1.0.0 功能预览</title>
+<title>FloeDock 浮冰灵动岛 — UI 预览</title>
 <style>
 /* ============ 基础 ============ */
 :root {
@@ -116,27 +116,6 @@ body {
 }
 .tool:hover { transform: scale(1.12); background: rgba(255,255,255,0.22); border-color: rgba(255,255,255,0.6); }
 .tool[data-rec] { background: rgba(230,60,60,0.45); border-color: rgba(255,120,120,0.7); }
-.tool.dnd-on { background: rgba(210,170,60,0.45); border-color: rgba(255,200,100,0.75); }
-
-/* 迷你 OSD 提示（胶囊式，模拟插件 OSD 上岛） */
-#mini-osd {
-  position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%);
-  background: var(--surf); border: 1px solid var(--border-hi); border-radius: 999px;
-  padding: 10px 22px; font-size: 13px; color: var(--text-hi);
-  opacity: 0; pointer-events: none;
-  transition: opacity 0.18s ease, transform 0.18s ease;
-  z-index: 60;
-}
-#mini-osd.show { opacity: 1; }
-
-/* 通知卡右上角关闭叉 */
-.notif-x {
-  position: absolute; top: 6px; right: 6px; width: 18px; height: 18px;
-  border-radius: 50%; display: flex; align-items: center; justify-content: center;
-  font-size: 10px; color: var(--text-low); cursor: pointer;
-  background: rgba(255,255,255,0.10);
-}
-.notif-x:hover { background: rgba(255,255,255,0.25); color: #fff; }
 
 /* ============ 全功能面板 ============ */
 #panel-ui {
@@ -296,8 +275,8 @@ body {
 
 /* 通知横幅（岛体内部，随胶囊变形出现） */
 #notif-banner {
-    position: relative; display: none; gap: 10px; align-items: flex-start;
-    width: 100%; padding: 8px 22px 4px;
+    display: none; gap: 10px; align-items: flex-start;
+    width: 100%; padding: 8px 4px 4px;
     border-top: 1px solid rgba(255,255,255,0.12);
 }
 #notif-banner.show { display: flex; }
@@ -327,7 +306,6 @@ body {
     <div id="capsule">
       <span id="clock">14:32&ensp;8月18日 周二</span>
       <div id="notif-banner">
-        <div class="notif-x" id="notif-x" title="关闭">✕</div>
         <div class="ic">💬</div>
         <div style="flex:1;min-width:0">
           <div class="app"><span>Telegram</span><span>14:32</span></div>
@@ -341,7 +319,6 @@ body {
         <div class="tool" title="截图">📷</div>
         <div class="tool" title="录音" data-rec>🎙️</div>
         <div class="tool" title="录屏">🎬</div>
-        <div class="tool dnd" title="勿扰模式" id="tool-dnd">🔕</div>
       </div>
       <div id="panel-ui" class="glass">
         <div class="body">
@@ -363,7 +340,7 @@ body {
                   <div class="h">张三：晚上一起吃饭？</div><div class="b">明天见 👋</div></div></div>
                 <div class="msg"><div class="ic" style="background:#26a;color:#fff">📧</div>
                   <div style="flex:1"><div class="t"><span>邮件</span><span>13:05</span></div>
-                  <div class="h">新邮件：FloeIsland v1.0.0 已发布</div><div class="b">浮灵岛 Dynamic Island 正式版上线…</div></div></div>
+                  <div class="h">新邮件：FloeDock v0.4.0</div><div class="b">深色灵动岛风 UI 已发布…</div></div></div>
                 <div class="msg"><div class="ic" style="background:#a62;color:#fff">🖥️</div>
                   <div style="flex:1"><div class="t"><span>系统</span><span>12:40</span></div>
                   <div class="h">屏幕截图已保存</div><div class="b">~/Pictures/...</div></div></div>
@@ -555,28 +532,6 @@ toolbar.querySelectorAll('.tool').forEach(t => {
   t.addEventListener('click', e => e.stopPropagation());
 });
 
-/* 勿扰模式开关（演示，联动 #float 不弹通知） */
-const dndBtn = document.getElementById('tool-dnd');
-dndBtn.addEventListener('click', () => {
-  dndBtn.classList.toggle('dnd-on');
-  const on = dndBtn.classList.contains('dnd-on');
-  dndBtn.title = on ? '勿扰已开启' : '勿扰模式';
-  flashOsd(on ? '🔕 勿扰已开启' : '🔔 勿扰已关闭');
-});
-
-/* 轻量 OSD 提示条（底部中部） */
-function flashOsd(msg) {
-  let osd = document.getElementById('mini-osd');
-  if (!osd) {
-    osd = document.createElement('div');
-    osd.id = 'mini-osd';
-    document.body.appendChild(osd);
-  }
-  osd.textContent = msg;
-  osd.classList.add('show');
-  setTimeout(() => osd.classList.remove('show'), 1200);
-}
-
 /* 点击岛体胶囊 → 打开里界面（同扩展：单击进入面板） */
 capsule.addEventListener('click', () => {
   if (state === 'dock' || state === 'toolbar')
@@ -721,21 +676,6 @@ function reset() {
   clockEl.style.opacity = '1';
   notifAnim = false;
 }
-
-/* 通知卡右上角关闭叉：立即收起当前通知 */
-document.getElementById('notif-x').addEventListener('click', e => {
-  e.stopPropagation();
-  if (bannerTimer) { clearTimeout(bannerTimer); bannerTimer = null; }
-  if (!banner.classList.contains('show')) return;
-  banner.classList.remove('show');
-  banner.style.opacity = '0';
-  capsule.style.width = '';
-  capsule.style.height = '34px';
-  capsule.style.borderRadius = '999px';
-  island.style.transform = 'translateY(0)';
-  clockEl.style.opacity = '1';
-  notifAnim = false;
-});
 
 /* 初始：先展示 Dock 态 */
 setTimeout(() => { capsule.dispatchEvent(new MouseEvent('mouseenter')); }, 800);
