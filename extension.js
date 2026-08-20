@@ -39,6 +39,11 @@ export default class FloeIslandExtension extends Extension {
             'updated', () => {
                 this._hideDateMenu();
                 this._applyBannerSuppression();
+                // 解锁后确保胶囊恢复到岛内：锁定时胶囊可能处于通知态/面板态
+                // （被提升到 uiGroup），解锁后需要强制恢复到 DOCK 状态和位置
+                if (this._dock) {
+                    this._dock.forceResetCapsule();
+                }
             });
 
         this._applyBannerSuppression();
